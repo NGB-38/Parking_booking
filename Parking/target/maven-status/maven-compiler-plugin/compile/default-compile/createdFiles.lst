@@ -16,6 +16,7 @@ login\Login.class
 Home\SeatAdd$1.class
 login\SignUp$1.class
 Home\HomePage$4.class
+Home\BookingMain$3.class
 login\LoginPage$2.class
 login\SignUp$3.class
 login\SignUp.class
