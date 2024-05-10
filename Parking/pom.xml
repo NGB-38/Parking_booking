@@ -19,9 +19,20 @@
                 <version>8.3.0</version>
             </dependency>
                 <dependency>
+<<<<<<< Updated upstream
                         <groupId>com.toedter</groupId>
                         <artifactId>jcalendar</artifactId>
                         <version>1.4</version>
+=======
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-j</artifactId>
+                        <version>8.4.0</version>
+>>>>>>> Stashed changes
+                </dependency>
+                <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-j</artifactId>
+                        <version>8.4.0</version>
                 </dependency>
         </dependencies>
     </project>

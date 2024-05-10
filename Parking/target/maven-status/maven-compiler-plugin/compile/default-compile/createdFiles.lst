@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 Home\HomePage$3.class
 Home\SeatAdd$2.class
 login\SignUp$2.class
@@ -22,3 +23,6 @@ login\SignUp$3.class
 login\SignUp.class
 Home\HomePage$1.class
 Home\BookingMain$1.class
+=======
+login/Login$1.class
+>>>>>>> Stashed changes
