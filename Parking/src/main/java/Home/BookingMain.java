@@ -15,6 +15,7 @@ public class BookingMain extends javax.swing.JFrame {
      */
     public BookingMain() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
