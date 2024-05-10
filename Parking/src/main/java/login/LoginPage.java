@@ -27,6 +27,7 @@ public class LoginPage extends javax.swing.JFrame {
         initComponents();
         this.setResizable(false);
         Connect();
+        this.setLocationRelativeTo(null);
     }
     public void Connect(){
         //connect vô database của mình, nguồn là mysql còn db tên là carregis (db phải in đậm mới xài được)

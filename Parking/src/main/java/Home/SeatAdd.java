@@ -22,6 +22,7 @@ public class SeatAdd extends javax.swing.JFrame {
     public SeatAdd() {
         initComponents();
         Connect();
+        this.setLocationRelativeTo(null);
     }
     Connection con;
     PreparedStatement pst;

@@ -43,6 +43,7 @@ public class SignUp extends javax.swing.JFrame {
             throwables.printStackTrace();
             }
         
+        this.setLocationRelativeTo(null);
     }
     /**
      * This method is called from within the constructor to initialize the form.
