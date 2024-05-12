@@ -4,6 +4,7 @@
  */
 package login;
 
+import Home.BookingForUser;
 import Home.HomePage;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -245,8 +246,13 @@ public class LoginPage extends javax.swing.JFrame {
             
             if(rs.next()){
                 this.hide();
-                HomePage home = new HomePage();
-                home.show();
+                if(un.equals("admin")){
+                    HomePage home = new HomePage();
+                    home.show();}
+                else{
+                    BookingForUser uspage = new BookingForUser();
+                    uspage.show();
+                }
             } else{
                 JOptionPane.showMessageDialog(rootPane,"Login failed");
                 this.show();
