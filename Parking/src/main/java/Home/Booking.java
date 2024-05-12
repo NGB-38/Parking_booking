@@ -27,7 +27,11 @@ public class Booking extends javax.swing.JFrame {
      */
     public Booking() {
         initComponents();
+<<<<<<< HEAD
         Connect();
+=======
+        this.setLocationRelativeTo(null);
+>>>>>>> 18c3709dad3fa8b1e1be401825985ff43d67733d
     }
     Connection con;
     PreparedStatement pst;
@@ -172,8 +176,11 @@ public class Booking extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(36, 118, 237));
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Book");
         jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setOpaque(true);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -183,14 +190,29 @@ public class Booking extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jButton2.setText("Cancel");
         jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+<<<<<<< HEAD
         jButton2.addActionListener(new java.awt.event.ActionListener() {
+=======
+        jButton2.setOpaque(true);
+
+        jTextField1.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        jTextField1.setText("Input Vehicle No");
+        jTextField1.setPreferredSize(new java.awt.Dimension(101, 23));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+>>>>>>> 18c3709dad3fa8b1e1be401825985ff43d67733d
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+<<<<<<< HEAD
         txtveno.setText("Input Vehicle No");
         txtveno.addActionListener(new java.awt.event.ActionListener() {
+=======
+        jTextField2.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        jTextField2.setText("Input Seat No");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+>>>>>>> 18c3709dad3fa8b1e1be401825985ff43d67733d
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtvenoActionPerformed(evt);
             }
@@ -273,6 +295,15 @@ public class Booking extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
+        jTextField3.setPreferredSize(new java.awt.Dimension(101, 23));
+
+        jTextField4.setPreferredSize(new java.awt.Dimension(101, 23));
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -299,10 +330,17 @@ public class Booking extends javax.swing.JFrame {
                                     .addComponent(jLabel4))
                                 .addGap(46, 46, 46)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+<<<<<<< HEAD
                                     .addComponent(txtveno, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                                     .addComponent(txtsno)
                                     .addComponent(txtmno)
                                     .addComponent(txtdate))))))
+=======
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField2)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+>>>>>>> 18c3709dad3fa8b1e1be401825985ff43d67733d
                 .addGap(64, 64, 64)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -313,6 +351,7 @@ public class Booking extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+<<<<<<< HEAD
                     .addComponent(txtveno, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(36, 36, 36)
@@ -329,6 +368,22 @@ public class Booking extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+=======
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+>>>>>>> 18c3709dad3fa8b1e1be401825985ff43d67733d
                 .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -442,6 +497,10 @@ public class Booking extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -493,7 +552,6 @@ public class Booking extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField txtdate;
     private com.toedter.calendar.JDateChooser txtdchooser;
