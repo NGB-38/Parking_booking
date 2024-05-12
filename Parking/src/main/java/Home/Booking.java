@@ -4,6 +4,18 @@
  */
 package Home;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author NGUYEN LIN
@@ -15,8 +27,74 @@ public class Booking extends javax.swing.JFrame {
      */
     public Booking() {
         initComponents();
+        Connect();
     }
+    Connection con;
+    PreparedStatement pst;
+    PreparedStatement pst1;
+    ResultSet rs;
 
+    
+   
+    
+    public void Connect(){
+        //connect vô database của mình, nguồn là mysql còn db tên là carregis (db phải in đậm mới xài được)
+      
+        String url="jdbc:mysql://localhost:3306/carregis";
+        String user="root";
+        String password="12345";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, user, password);
+            } 
+            catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            }    
+    }
+    
+    public void Load()
+    {
+        try {
+            // TODO add your handling code here:
+            
+            SimpleDateFormat Df = new SimpleDateFormat("yyyy-MM-dd");
+            String date = Df.format(txtdchooser.getDate());
+            
+            pst = con.prepareStatement("SELECT seat.parkno, seat.seats, seat.status, seat.date, parkbook.carnum, parkbook.mobile from seat Left JOIN parkbook ON seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND seat.date = parkbook.date where seat.date = ?");
+            pst.setString(1, date);
+            rs = pst.executeQuery();
+            
+            ResultSetMetaData rsd = rs.getMetaData();
+            int c;
+            c = rsd.getColumnCount();
+            DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
+            d.setRowCount(0);
+            
+            while(rs.next())
+            {
+                Vector v2 = new Vector();
+                
+                for(int i=1; i<=c; i++)
+                {
+                    v2.add(rs.getString("parkno"));
+                    v2.add(rs.getString("seats"));
+                    v2.add(rs.getString("status"));
+                    v2.add(rs.getString("carnum"));
+                    v2.add(rs.getString("mobile"));
+                    v2.add(rs.getString("date"));
+                }
+                
+                d.addRow(v2);
+                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,7 +119,7 @@ public class Booking extends javax.swing.JFrame {
         txtsno = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         txtdchooser = new com.toedter.calendar.JDateChooser();
@@ -105,6 +183,11 @@ public class Booking extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jButton2.setText("Cancel");
         jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         txtveno.setText("Input Vehicle No");
         txtveno.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +202,7 @@ public class Booking extends javax.swing.JFrame {
             }
         });
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -130,12 +213,22 @@ public class Booking extends javax.swing.JFrame {
                 "parkno", "seat", "status", "carnum", "mobile", "date"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable1);
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel6.setText("Date");
 
         jButton3.setText("Show");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -266,6 +359,45 @@ public class Booking extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            
+            DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+            int selected = jTable1.getSelectedRow();
+            
+            String parkno = d1.getValueAt(selected, 0).toString();
+            
+            String carnum = txtveno.getText();
+            String seat = txtsno.getText();
+            String mobile = txtmno.getText();
+            String date = txtdate.getText();
+            
+            pst = con.prepareStatement("insert into parkbook(parkno, seat, carnum, mobile, date)values(?,?,?,?,?)");
+            pst.setString(1, parkno);
+            pst.setString(2, seat);
+            pst.setString(3, carnum);
+            pst.setString(4, mobile);
+            pst.setString(5, date);
+            pst.executeUpdate();
+            
+            pst1 = con.prepareStatement("update seat set status = ? where seats = ?");
+            pst1.setString(1, "Booked");
+            pst1.setString(2, seat);
+            pst1.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Slot Booked");
+            Load();
+            
+            txtveno.setText("");
+            txtsno.setText("");
+            txtmno.setText("");
+            txtdate.setText("");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtvenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtvenoActionPerformed
@@ -275,6 +407,40 @@ public class Booking extends javax.swing.JFrame {
     private void txtsnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtsnoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtsnoActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+      Load();
+       
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        int selected = jTable1.getSelectedRow();
+        
+        String status = d1.getValueAt(selected, 2).toString();
+        
+        if(!status.equals("Booked"))
+        {
+            String seat = d1.getValueAt(selected, 1).toString();
+            String date = d1.getValueAt(selected, 5).toString();
+            txtsno.setText(seat);
+            txtdate.setText(date);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Slot Bokked");
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+       this.setVisible(false);
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -327,8 +493,8 @@ public class Booking extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField txtdate;
     private com.toedter.calendar.JDateChooser txtdchooser;
     private javax.swing.JTextField txtmno;
