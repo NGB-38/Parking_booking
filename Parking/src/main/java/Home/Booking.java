@@ -4,11 +4,14 @@
  */
 package Home;
 
+import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +42,7 @@ public class Booking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/carregis";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -51,46 +54,53 @@ public class Booking extends javax.swing.JFrame {
             }
         
     }
-    public void Load()
-    {
-        try {
-            // TODO add your handling code here:
-            
-            SimpleDateFormat Df = new SimpleDateFormat("yyyy-MM-dd");
-            String date = Df.format(txtdchooser.getDate());
-            
-            pst = con.prepareStatement("SELECT seat.parkno, seat.seats, seat.status, seat.date, parkbook.carnum, parkbook.mobile from seat Left JOIN parkbook ON seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND seat.date = parkbook.date where seat.date = ?");
-            pst.setString(1, date);
-            rs = pst.executeQuery();
-            
-            ResultSetMetaData rsd = rs.getMetaData();
-            int c;
-            c = rsd.getColumnCount();
-            DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
-            d.setRowCount(0);
-            
-            while(rs.next())
-            {
-                Vector v2 = new Vector();
-                
-                for(int i=1; i<=c; i++)
-                {
-                    v2.add(rs.getString("parkno"));
-                    v2.add(rs.getString("seats"));
-                    v2.add(rs.getString("status"));
-                    v2.add(rs.getString("carnum"));
-                    v2.add(rs.getString("mobile"));
-                    v2.add(rs.getString("date"));
-                }
-                
-                d.addRow(v2);
-                
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+    
+//To modify your code so that it displays slots from the selected txtdchooser date to the txtddchooser due date when the "Show" button is clicked, you need to update the Load() method to use both dates for querying the database. Here's how you can do it:
+
+
+    public void Load() {
+    try {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String fromDate = df.format(txtdchooser.getDate());
+        String dueDate = df.format(txtddchooser.getDate());
+
+        pst = con.prepareStatement("SELECT seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile, ? AS date, ? AS due_date "
+                + "FROM seat LEFT JOIN parkbook ON seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND seat.date = parkbook.date "
+                + "WHERE seat.date BETWEEN ? AND ? AND seat.status = 'Available' "
+                + "AND NOT EXISTS (SELECT 1 FROM parkbook "
+                + "WHERE seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND parkbook.date BETWEEN ? AND ?) "
+                + "GROUP BY seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile;");
+        pst.setString(1, fromDate);
+        pst.setString(2, dueDate);
+        pst.setString(3, fromDate);
+        pst.setString(4, dueDate);
+        pst.setString(5, fromDate);
+        pst.setString(6, dueDate);
+        rs = pst.executeQuery();
+
+        DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+        d.setRowCount(0);
+
+        while (rs.next()) {
+            Vector v2 = new Vector();
+            v2.add(rs.getString("parkno"));
+            v2.add(rs.getString("seats"));
+            v2.add(rs.getString("status"));
+            v2.add(rs.getString("carnum"));
+            v2.add(rs.getString("mobile"));
+            v2.add(rs.getString("date"));
+            v2.add(rs.getString("due_date"));
+            d.addRow(v2);
         }
+    } catch (SQLException ex) {
+        Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
     }
+}
+
+
+
+
+
      
      
 
@@ -115,12 +125,16 @@ public class Booking extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtddate = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         txtdchooser = new com.toedter.calendar.JDateChooser();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        txtddchooser = new com.toedter.calendar.JDateChooser();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,7 +144,7 @@ public class Booking extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(13, 17, 22));
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Date");
+        jLabel2.setText("From:");
 
         jLabel3.setBackground(new java.awt.Color(13, 17, 22));
         jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -166,6 +180,11 @@ public class Booking extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Booking");
 
+        jLabel9.setBackground(new java.awt.Color(13, 17, 22));
+        jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("To:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -173,29 +192,28 @@ public class Booking extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(73, 73, 73))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton1)
-                                .addGap(49, 49, 49)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtveno, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                                .addComponent(txtsno)
-                                .addComponent(txtmno)
-                                .addComponent(txtdate))))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(73, 73, 73)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtveno, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                            .addComponent(txtsno)
+                            .addComponent(txtmno)
+                            .addComponent(txtdate)
+                            .addComponent(txtddate)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(114, 114, 114)
-                        .addComponent(jLabel6)))
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jButton1)
+                        .addGap(49, 49, 49)
+                        .addComponent(jButton2)))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -219,14 +237,18 @@ public class Booking extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                .addGap(38, 38, 38)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtddate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel7.setText("Date");
+        jLabel7.setText("From:");
 
         jButton3.setText("Show");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -237,15 +259,16 @@ public class Booking extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "parkno", "seat", "status", "carnum", "mobile", "date"
+                "parkno", "seat", "status", "carnum", "mobile", "date", "due_date"
             }
         ));
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -253,32 +276,41 @@ public class Booking extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel8.setText("To:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(89, 89, 89)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtdchooser, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtddchooser, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(256, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
+                    .addComponent(txtddchooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtdchooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
                     .addComponent(jButton3))
-                .addGap(7, 7, 7)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -288,12 +320,14 @@ public class Booking extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -322,8 +356,10 @@ public class Booking extends javax.swing.JFrame {
         {
             String seat = d1.getValueAt(selected, 1).toString();
             String date = d1.getValueAt(selected, 5).toString();
+            String ddate = d1.getValueAt(selected,6).toString();
             txtsno.setText(seat);
             txtdate.setText(date);
+            txtddate.setText(ddate);
         }
         else
         {
@@ -346,6 +382,8 @@ public class Booking extends javax.swing.JFrame {
             String seat = txtsno.getText();
             String mobile = txtmno.getText();
             String date = txtdate.getText();
+            String ddate = txtddate.getText();
+          
             
             pst = con.prepareStatement("insert into parkbook(parkno, seat, carnum, mobile, date)values(?,?,?,?,?)");
             pst.setString(1, parkno);
@@ -355,9 +393,11 @@ public class Booking extends javax.swing.JFrame {
             pst.setString(5, date);
             pst.executeUpdate();
             
-            pst1 = con.prepareStatement("update seat set status = ? where seats = ?");
+            pst1 = con.prepareStatement("update seat set status = ? where seats = ? and date BETWEEN ? AND ?" );
             pst1.setString(1, "Booked");
             pst1.setString(2, seat);
+            pst1.setString(3,date);
+            pst1.setString(4,ddate);
             pst1.executeUpdate();
             
             JOptionPane.showMessageDialog(this, "Slot Booked");
@@ -367,6 +407,7 @@ public class Booking extends javax.swing.JFrame {
             txtsno.setText("");
             txtmno.setText("");
             txtdate.setText("");
+            txtddate.setText("");
             
         } catch (SQLException ex) {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
@@ -419,12 +460,16 @@ public class Booking extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtdate;
     private com.toedter.calendar.JDateChooser txtdchooser;
+    private javax.swing.JTextField txtddate;
+    private com.toedter.calendar.JDateChooser txtddchooser;
     private javax.swing.JTextField txtmno;
     private javax.swing.JTextField txtsno;
     private javax.swing.JTextField txtveno;

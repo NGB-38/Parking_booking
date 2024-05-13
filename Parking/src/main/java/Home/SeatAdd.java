@@ -34,7 +34,7 @@ public class SeatAdd extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/carregis";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -209,14 +209,12 @@ public class SeatAdd extends javax.swing.JFrame {
        for(int i=1; i<=20; i++)
        {
            int seats = i;
-           String status = "unbooked";
            
             try {
-                pst = con.prepareStatement ("insert into seat(parkno, seats,date, status)values(?,?,?,?)");
+                pst = con.prepareStatement ("insert into seat(parkno, seats,date)values(?,?,?)");
                 pst.setString(1,parkno);
                 pst.setInt(2,seats);
                 pst.setString(3,date);
-                pst.setString(4, status);
                 pst.executeUpdate();
 
             } catch (SQLException ex) {
