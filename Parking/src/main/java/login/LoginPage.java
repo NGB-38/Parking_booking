@@ -251,6 +251,7 @@ public class LoginPage extends javax.swing.JFrame {
                     home.show();}
                 else{
                     BookingForUser uspage = new BookingForUser();
+                    uspage.setUsername(un);
                     uspage.show();
                 }
             } else{
@@ -262,6 +263,7 @@ public class LoginPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

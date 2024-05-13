@@ -23,6 +23,15 @@ import javax.swing.table.DefaultTableModel;
  * @author NGUYEN LIN
  */
 public class Booking extends javax.swing.JFrame {
+    private String username;
+    
+    public void setUsername(String username){
+        this.username = username;
+    }
+    
+    public String getUsername(){
+        return username;
+    }
 
     /**
      * Creates new form Booking
@@ -385,12 +394,13 @@ public class Booking extends javax.swing.JFrame {
             String ddate = txtddate.getText();
           
             
-            pst = con.prepareStatement("insert into parkbook(parkno, seat, carnum, mobile, date)values(?,?,?,?,?)");
+            pst = con.prepareStatement("insert into parkbook(parkno, seat, carnum, mobile, date, username)values(?,?,?,?,?,?)");
             pst.setString(1, parkno);
             pst.setString(2, seat);
             pst.setString(3, carnum);
             pst.setString(4, mobile);
             pst.setString(5, date);
+            pst.setString(6, getUsername());
             pst.executeUpdate();
             
             pst1 = con.prepareStatement("update seat set status = ? where seats = ? and date BETWEEN ? AND ?" );

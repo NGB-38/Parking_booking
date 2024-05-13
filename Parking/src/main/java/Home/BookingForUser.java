@@ -11,6 +11,16 @@ import login.LoginPage;
  * @author giahuy
  */
 public class BookingForUser extends javax.swing.JFrame {
+    
+    private String username;
+    
+    public void setUsername(String username){
+        this.username = username;
+    }
+    
+    public String getUsername(){
+        return username;
+    }
 
     /**
      * Creates new form BookingForUser
@@ -135,7 +145,8 @@ public class BookingForUser extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.hide();
-        BookingMain page = new BookingMain();
+        Booking page = new Booking();
+        page.setUsername(getUsername());
         page.show();
     }//GEN-LAST:event_jButton2ActionPerformed
 
