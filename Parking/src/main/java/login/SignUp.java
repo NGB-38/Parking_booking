@@ -200,6 +200,7 @@ public class SignUp extends javax.swing.JFrame {
             {
             this.hide();
             BookingForUser home = new BookingForUser();
+            home.setUsername(username);
             home.show();  
             }
             

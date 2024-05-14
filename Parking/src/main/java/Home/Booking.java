@@ -54,7 +54,7 @@ public class Booking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/carregis";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -78,7 +78,7 @@ public class Booking extends javax.swing.JFrame {
         
         pst = con.prepareStatement("SELECT seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile, ? AS date, ? AS due_date "
                 + "FROM seat LEFT JOIN parkbook ON seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND seat.date = parkbook.date "
-                + "WHERE seat.date BETWEEN ? AND ? AND seat.status = 'unbooked' "
+                + "WHERE seat.date BETWEEN ? AND ? AND seat.status = 'Available' "
                 + "AND NOT EXISTS (SELECT 1 FROM parkbook "
                 + "WHERE seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND parkbook.date BETWEEN ? AND ?) "
                 + "GROUP BY seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile;");
@@ -460,6 +460,7 @@ public class Booking extends javax.swing.JFrame {
             txtmno.setText("");
             txtdate.setText("");
             txtddate.setText("");
+            txtprice.setText("");
             
         } catch (SQLException ex) {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
