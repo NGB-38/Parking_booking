@@ -4,6 +4,10 @@
  */
 package Home;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
 import login.LoginPage;
 
 /**
@@ -28,6 +32,63 @@ public class BookingForUser extends javax.swing.JFrame {
     public BookingForUser() {
         initComponents();
     }
+    
+//    
+//    Connection con;
+//    PreparedStatement pst;
+//    PreparedStatement pst1;
+//    ResultSet rs;
+//    
+//        public void Load() {
+//    try {
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//        String fromDate = df.format(txtdchooser.getDate());
+//        String dueDate = df.format(txtddchooser.getDate());
+        
+//        pst = con.prepareStatement
+//                ("SELECT parkbook.parkno, parkbook.seat, parkbook.carnum, parkbook.mobile, parkbook.date, parkbook.due_date,"
+//                + "parkbook.price, parkbook.username, reservation.status"
+//                + "FROM parkbook LEFT JOIN reservation ON parkbook.parkno = reservation.parkno AND parkbook.seat = reservation.seat "
+//                + "AND parkbook.date = reservation.date AND parkbook.due_date = reservation.due_date"
+//                + "AND parkbook.carnum = reservation.carnum AND parkbook.mobile = reservation.mobile"
+//                + "WHERE reservation.status = 'Unpaid' ");
+//                + "AND NOT EXISTS (SELECT 1 FROM parkbook "
+//                + "WHERE seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND parkbook.date BETWEEN ? AND ?) "
+//                + "GROUP BY seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile;");
+//        pst.setString(1, fromDate);
+//        pst.setString(2, dueDate);
+//        pst.setString(3, fromDate);
+//        pst.setString(4, dueDate);
+//        pst.setString(5, fromDate);
+//        pst.setString(6, dueDate);
+//        rs = pst.executeQuery();
+//        HistoryBooking hs = new HistoryBooking();
+//
+//        DefaultTableModel d = (DefaultTableModel) hs.jTableHis.getModel();
+//        d.setRowCount(0);
+//
+//        while (rs.next()) {
+//            Vector v2 = new Vector();
+//            v2.add(rs.getString("parkno"));
+//            v2.add(rs.getString("seats"));
+//            v2.add(rs.getString("status"));
+//            v2.add(rs.getString("carnum"));
+//            v2.add(rs.getString("mobile"));
+//            v2.add(rs.getString("date"));
+//            v2.add(rs.getString("due_date"));
+//            d.addRow(v2);
+//        }
+        
+        
+//    } catch (SQLException ex) {
+//        Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//}
+    
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,6 +105,7 @@ public class BookingForUser extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButtonPayment = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 36)); // NOI18N
@@ -83,22 +145,38 @@ public class BookingForUser extends javax.swing.JFrame {
             }
         });
 
+        jButtonPayment.setBackground(new java.awt.Color(13, 17, 22));
+        jButtonPayment.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jButtonPayment.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonPayment.setText("Payment");
+        jButtonPayment.setBorderPainted(false);
+        jButtonPayment.setFocusPainted(false);
+        jButtonPayment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPaymentActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(36, 36, 36))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonPayment)
+                    .addComponent(jButton2))
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
+                .addGap(78, 78, 78)
                 .addComponent(jButton2)
+                .addGap(44, 44, 44)
+                .addComponent(jButtonPayment)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -156,6 +234,19 @@ public class BookingForUser extends javax.swing.JFrame {
         log.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButtonPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPaymentActionPerformed
+        // TODO add your handling code here:
+        this.hide();
+        HistoryBooking hb = new HistoryBooking();
+        hb.show();
+        
+        
+        
+        //khi bấm payment thì nó chạy hàm bỏ dữ liệu vào table luôn => gọi 1 hàm ở đây, hàm đó ở trên 
+        
+        
+    }//GEN-LAST:event_jButtonPaymentActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -194,6 +285,7 @@ public class BookingForUser extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonPayment;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
