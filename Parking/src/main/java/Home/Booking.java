@@ -5,6 +5,7 @@
 package Home;
 
 import static java.lang.String.format;
+import java.math.BigDecimal;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,6 +47,7 @@ public class Booking extends javax.swing.JFrame {
     Connection con;
     PreparedStatement pst;
     PreparedStatement pst1;
+    PreparedStatement pst2;
     ResultSet rs;
     
     
@@ -54,7 +56,7 @@ public class Booking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/carregis";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -294,7 +296,15 @@ public class Booking extends javax.swing.JFrame {
             new String [] {
                 "parkno", "seat", "status", "carnum", "mobile", "date", "due_date"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -371,8 +381,8 @@ public class Booking extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.hide();
         BookingForUser boo = new BookingForUser();
+        boo.setUsername(username);
         boo.show();
-//        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -459,6 +469,28 @@ public class Booking extends javax.swing.JFrame {
             pst1.executeUpdate();
             
             JOptionPane.showMessageDialog(this, "Slot Booked");
+            
+            
+
+            String priceString = txtprice.getText(); 
+            BigDecimal priceBigDecimal = new BigDecimal(priceString);
+            
+            pst2 = con.prepareStatement(
+            "INSERT INTO reservation (parkno, seat, carnum, mobile, date, username, price, due_date, status) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+            "ON DUPLICATE KEY UPDATE status = VALUES(status)");
+            pst2.setString(1, parkno);
+            pst2.setString(2, seat);
+            pst2.setString(3, carnum);
+            pst2.setString(4, mobile);
+            pst2.setString(5, date);
+            pst2.setString(6, getUsername());
+            pst2.setBigDecimal(7, priceBigDecimal);
+            pst2.setString(8, ddate);
+            pst2.setString(9, "Unpaid");
+            pst2.executeUpdate();
+
+            
             Load();
             
             txtveno.setText("");

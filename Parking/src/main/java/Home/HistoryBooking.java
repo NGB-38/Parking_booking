@@ -46,6 +46,7 @@ public class HistoryBooking extends javax.swing.JFrame {
     Connection con;
     PreparedStatement pst;
     PreparedStatement pst1;
+    PreparedStatement pst2;
     ResultSet rs;
     
     
@@ -54,7 +55,7 @@ public class HistoryBooking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/carregis";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -71,64 +72,49 @@ public class HistoryBooking extends javax.swing.JFrame {
 
 
     public void Load() {
-    try {
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        String fromDate = df.format(txtdchooser.getDate());
-//        String dueDate = df.format(txtddchooser.getDate());
-//          String status = "Unpaid";
-        String username = txtusername.getText();
+  
+        try {
+            pst = con.prepareStatement
+                ("SELECT parkbook.parkno, parkbook.seat, parkbook.carnum, parkbook.mobile, parkbook.date, parkbook.due_date, " +
+                    "parkbook.price, ? AS username, reservation.status " +
+                    "FROM parkbook " +
+                    "LEFT JOIN reservation ON parkbook.parkno = reservation.parkno " +
+                    "AND parkbook.seat = reservation.seat " +
+                    "AND parkbook.date = reservation.date " +
+                    "AND parkbook.due_date = reservation.due_date " +
+                    "AND parkbook.carnum = reservation.carnum " +
+                    "AND parkbook.mobile = reservation.mobile " +
+                        "WHERE parkbook.username = ?;");
+               pst.setString(1, username);
+               pst.setString(2,username);
 
-        pst = con.prepareStatement
-                ("SELECT parkbook.parkno, parkbook.seat, parkbook.carnum, parkbook.mobile, parkbook.date, parkbook.due_date,"
-                + "parkbook.price, ? AS username, reservation.status"
-                + "FROM parkbook LEFT JOIN reservation ON parkbook.parkno = reservation.parkno AND parkbook.seat = reservation.seat "
-                + "AND parkbook.date = reservation.date AND parkbook.due_date = reservation.due_date"
-                + "AND parkbook.carnum = reservation.carnum AND parkbook.mobile = reservation.mobile"
-                + "WHERE parkbook.username = ? AND reservation.status = 'Unpaid';"
+            rs = pst.executeQuery();           
+            
+            
+            
+            DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
+            d.setRowCount(0);
+            
+            while (rs.next())
+            {
+                Vector v2 = new Vector();
                 
-                );
-        pst.setString(1, username);
-        pst.setString(2,username);
-        
-//        pst.setString(2, dueDate);
-//        pst.setString(3, fromDate);
-//        pst.setString(4, dueDate);
-//        pst.setString(5, fromDate);
-//        pst.setString(6, dueDate);
-
-        rs = pst.executeQuery();
-//        ResultSetMetaData rsd = rs.getMetaData();
-//        int c;
-//        c = rsd.getColumnCount();
-            
-
-        DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
-        d.setRowCount(0);
-//        String status = "Unpaid";
-
-        while (rs.next()) 
-        {
-            Vector v2 = new Vector();
-            
-            v2.add(rs.getString("parkno"));
-            v2.add(rs.getString("seat"));
-            v2.add(rs.getString("username"));
-            v2.add(rs.getString("carnum"));
-            v2.add(rs.getString("mobile"));
-            v2.add(rs.getString("date"));
-            v2.add(rs.getString("due_date"));
-            v2.add(rs.getBigDecimal("price"));
-            v2.add(rs.getString("status"));             
-            d.addRow(v2);
-            
-            
+                v2.add(rs.getString("parkno"));
+                v2.add(rs.getString("seat"));
+                v2.add(rs.getString("username"));
+                v2.add(rs.getString("carnum"));
+                v2.add(rs.getString("mobile"));
+                v2.add(rs.getString("date"));
+                v2.add(rs.getString("due_date"));
+                v2.add(rs.getBigDecimal("price"));
+                v2.add(rs.getString("status"));
+                d.addRow(v2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-    } catch (SQLException ex) {
-        Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
-    }
-}
+        }
+
 
 
 
@@ -163,12 +149,8 @@ public class HistoryBooking extends javax.swing.JFrame {
         txtprice = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableHis = new javax.swing.JTable();
-        jLabel8 = new javax.swing.JLabel();
-        txtusername = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -293,15 +275,6 @@ public class HistoryBooking extends javax.swing.JFrame {
                 .addGap(39, 39, 39))
         );
 
-        jLabel7.setText("From:");
-
-        jButton3.setText("Show bill");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         jTableHis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
@@ -312,7 +285,15 @@ public class HistoryBooking extends javax.swing.JFrame {
             new String [] {
                 "parkno", "seat", "username", "carnum", "mobile", "date", "due_date", "price", "status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableHis.getTableHeader().setReorderingAllowed(false);
         jTableHis.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -321,22 +302,10 @@ public class HistoryBooking extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableHis);
 
-        jLabel8.setText("username");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
-                .addComponent(jButton3)
-                .addGap(163, 163, 163))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -344,15 +313,8 @@ public class HistoryBooking extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                .addGap(64, 64, 64)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -377,12 +339,6 @@ public class HistoryBooking extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        Load();
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
@@ -397,9 +353,7 @@ public class HistoryBooking extends javax.swing.JFrame {
 //        
         if(!status.equals("Paid"))
         {
-            String parkno = d1.getValueAt(selected, 0).toString();
             String seat = d1.getValueAt(selected, 1).toString();
-            String username = d1.getValueAt(selected, 2).toString();
             String carnum = d1.getValueAt(selected, 3).toString();
             String mobile = d1.getValueAt(selected, 4).toString();
             String date = d1.getValueAt(selected, 5).toString();
@@ -430,45 +384,32 @@ public class HistoryBooking extends javax.swing.JFrame {
             int selected = jTableHis.getSelectedRow();
             
             String parkno = d1.getValueAt(selected, 0).toString();
-//            String username = d1.getValueAt(selected,2).toString();
-            String status = "Unpaid";
+            String status = d1.getValueAt(selected, 8).toString() ;
             String carnum = txtveno.getText();
             String seat = txtsno.getText();
             String mobile = txtmno.getText();
             String date = txtdate.getText();
             String ddate = txtddate.getText();
-            String price = txtprice.getText();
-          
             
-            pst = con.prepareStatement("insert into reservation(parkno, seat, carnum, mobile, date, username, price, due_date, status)values(?,?,?,?,?,?,?,?,?)");
-            pst.setString(1, parkno);
-            pst.setString(2, seat);
-            pst.setString(3, carnum);
-            pst.setString(4, mobile);
-            pst.setString(5, date);
-            pst.setString(6, getUsername());
-            pst.setString(7,price);
-            pst.setString(8, ddate);
-            pst.setString(9, status);
-            pst.executeUpdate();
+               if(!status.equals("Paid"))
+        {
+            String sql = "UPDATE reservation SET status = 'Paid' WHERE username = ? AND seat = ? AND date = ? AND due_date = ? AND carnum = ?";
+            pst2 = con.prepareStatement(sql);
+
+            // Set the values for the parameters
+            pst2.setString(1, username);
+            pst2.setString(2, seat);
+            pst2.setString(3, date);
+            pst2.setString(4, ddate);
+            pst2.setString(5, carnum);
             
-//            pst1 = con.prepareStatement("update reservation set status = ? " );
-//            pst1.setString(1, "Paid");
-////            pst1.setString(2, seat);
-////            pst1.setString(3,date);
-////            pst1.setString(4,ddate);
-//            pst1.executeUpdate();
+            pst2.executeUpdate();
             
+            JOptionPane.showMessageDialog(rootPane, "Payment successfull");
+    
+        }
             JOptionPane.showMessageDialog(this, "Paid");
-            Load();
-//            
-//            txtveno.setText("");
-//            txtsno.setText("");
-//            txtmno.setText("");
-//            txtdate.setText("");
-//            txtddate.setText("");
-//            txtprice.setText("");
-//            
+            Load();          
         } catch (SQLException ex) {
             Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -516,15 +457,12 @@ public class HistoryBooking extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -535,7 +473,6 @@ public class HistoryBooking extends javax.swing.JFrame {
     private javax.swing.JTextField txtmno;
     private javax.swing.JTextField txtprice;
     private javax.swing.JTextField txtsno;
-    private javax.swing.JTextField txtusername;
     private javax.swing.JTextField txtveno;
     // End of variables declaration//GEN-END:variables
 }

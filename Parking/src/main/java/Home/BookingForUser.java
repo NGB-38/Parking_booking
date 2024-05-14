@@ -7,6 +7,9 @@ package Home;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import login.LoginPage;
 
@@ -33,58 +36,7 @@ public class BookingForUser extends javax.swing.JFrame {
         initComponents();
     }
     
-//    
-//    Connection con;
-//    PreparedStatement pst;
-//    PreparedStatement pst1;
-//    ResultSet rs;
-//    
-//        public void Load() {
-//    try {
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        String fromDate = df.format(txtdchooser.getDate());
-//        String dueDate = df.format(txtddchooser.getDate());
-        
-//        pst = con.prepareStatement
-//                ("SELECT parkbook.parkno, parkbook.seat, parkbook.carnum, parkbook.mobile, parkbook.date, parkbook.due_date,"
-//                + "parkbook.price, parkbook.username, reservation.status"
-//                + "FROM parkbook LEFT JOIN reservation ON parkbook.parkno = reservation.parkno AND parkbook.seat = reservation.seat "
-//                + "AND parkbook.date = reservation.date AND parkbook.due_date = reservation.due_date"
-//                + "AND parkbook.carnum = reservation.carnum AND parkbook.mobile = reservation.mobile"
-//                + "WHERE reservation.status = 'Unpaid' ");
-//                + "AND NOT EXISTS (SELECT 1 FROM parkbook "
-//                + "WHERE seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND parkbook.date BETWEEN ? AND ?) "
-//                + "GROUP BY seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile;");
-//        pst.setString(1, fromDate);
-//        pst.setString(2, dueDate);
-//        pst.setString(3, fromDate);
-//        pst.setString(4, dueDate);
-//        pst.setString(5, fromDate);
-//        pst.setString(6, dueDate);
-//        rs = pst.executeQuery();
-//        HistoryBooking hs = new HistoryBooking();
-//
-//        DefaultTableModel d = (DefaultTableModel) hs.jTableHis.getModel();
-//        d.setRowCount(0);
-//
-//        while (rs.next()) {
-//            Vector v2 = new Vector();
-//            v2.add(rs.getString("parkno"));
-//            v2.add(rs.getString("seats"));
-//            v2.add(rs.getString("status"));
-//            v2.add(rs.getString("carnum"));
-//            v2.add(rs.getString("mobile"));
-//            v2.add(rs.getString("date"));
-//            v2.add(rs.getString("due_date"));
-//            d.addRow(v2);
-//        }
-        
-        
-//    } catch (SQLException ex) {
-//        Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
-//    }
-//}
-    
+
     
     
     
@@ -175,7 +127,7 @@ public class BookingForUser extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addComponent(jButton2)
-                .addGap(44, 44, 44)
+                .addGap(36, 36, 36)
                 .addComponent(jButtonPayment)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,13 +190,9 @@ public class BookingForUser extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.hide();
         HistoryBooking hb = new HistoryBooking();
+        hb.setUsername(getUsername());
+        hb.Load();
         hb.show();
-        
-        
-        
-        //khi bấm payment thì nó chạy hàm bỏ dữ liệu vào table luôn => gọi 1 hàm ở đây, hàm đó ở trên 
-        
-        
     }//GEN-LAST:event_jButtonPaymentActionPerformed
 
     /**

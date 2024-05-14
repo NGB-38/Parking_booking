@@ -333,13 +333,13 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="7" rowCount="4">
-                    <Column editable="true" title="parkno" type="java.lang.Object"/>
-                    <Column editable="true" title="seat" type="java.lang.Object"/>
-                    <Column editable="true" title="status" type="java.lang.Object"/>
-                    <Column editable="true" title="carnum" type="java.lang.Object"/>
-                    <Column editable="true" title="mobile" type="java.lang.Object"/>
-                    <Column editable="true" title="date" type="java.lang.Object"/>
-                    <Column editable="true" title="due_date" type="java.lang.Object"/>
+                    <Column editable="false" title="parkno" type="java.lang.Object"/>
+                    <Column editable="false" title="seat" type="java.lang.Object"/>
+                    <Column editable="false" title="status" type="java.lang.Object"/>
+                    <Column editable="false" title="carnum" type="java.lang.Object"/>
+                    <Column editable="false" title="mobile" type="java.lang.Object"/>
+                    <Column editable="false" title="date" type="java.lang.Object"/>
+                    <Column editable="false" title="due_date" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

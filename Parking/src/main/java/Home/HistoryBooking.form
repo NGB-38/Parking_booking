@@ -269,17 +269,6 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
-                  <Component id="jLabel7" min="-2" pref="37" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jLabel8" min="-2" pref="60" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="txtusername" min="-2" pref="104" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
-              </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="720" max="-2" attributes="0"/>
@@ -289,36 +278,14 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtusername" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="377" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" pref="383" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel7">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="From:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Show bill"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
-          </Events>
-        </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -330,15 +297,15 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="9" rowCount="4">
-                    <Column editable="true" title="parkno" type="java.lang.Object"/>
-                    <Column editable="true" title="seat" type="java.lang.Object"/>
-                    <Column editable="true" title="username" type="java.lang.Object"/>
-                    <Column editable="true" title="carnum" type="java.lang.Object"/>
+                    <Column editable="false" title="parkno" type="java.lang.Object"/>
+                    <Column editable="false" title="seat" type="java.lang.Object"/>
+                    <Column editable="false" title="username" type="java.lang.Object"/>
+                    <Column editable="false" title="carnum" type="java.lang.Object"/>
                     <Column editable="true" title="mobile" type="java.lang.Object"/>
-                    <Column editable="true" title="date" type="java.lang.Object"/>
-                    <Column editable="true" title="due_date" type="java.lang.Object"/>
-                    <Column editable="true" title="price" type="java.lang.Object"/>
-                    <Column editable="true" title="status" type="java.lang.Object"/>
+                    <Column editable="false" title="date" type="java.lang.Object"/>
+                    <Column editable="false" title="due_date" type="java.lang.Object"/>
+                    <Column editable="false" title="price" type="java.lang.Object"/>
+                    <Column editable="false" title="status" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -400,13 +367,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="jLabel8">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="username"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtusername">
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
