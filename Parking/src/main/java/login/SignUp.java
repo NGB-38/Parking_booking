@@ -4,6 +4,7 @@
  */
 package login;
 
+import Home.BookingForUser;
 import Home.HomePage;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -95,6 +96,7 @@ public class SignUp extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Login");
         jButton1.setBorderPainted(false);
+        jButton1.setFocusPainted(false);
         jButton1.setOpaque(true);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +109,7 @@ public class SignUp extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Return");
         jButton2.setBorderPainted(false);
+        jButton2.setFocusPainted(false);
         jButton2.setOpaque(true);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,12 +190,21 @@ public class SignUp extends javax.swing.JFrame {
             pst.executeUpdate();
             
             JOptionPane.showMessageDialog(rootPane, "Account created");
+            if(username.equals("admin"))
+            {
+                this.hide();
+                HomePage home = new HomePage();
+                home.show();
+            }
+            else
+            {
             this.hide();
-            HomePage home = new HomePage();
+            BookingForUser home = new BookingForUser();
             home.show();  
+            }
             
             }catch(Exception e){
-                System.out.println(e);
+                JOptionPane.showMessageDialog(rootPane, "Username taken, sign up failed");
             }
                    
     }//GEN-LAST:event_jButton1ActionPerformed

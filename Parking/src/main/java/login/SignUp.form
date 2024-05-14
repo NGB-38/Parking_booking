@@ -168,6 +168,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Login"/>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -187,6 +188,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Return"/>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
