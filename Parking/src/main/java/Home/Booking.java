@@ -54,7 +54,7 @@ public class Booking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/carregis";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -369,7 +369,10 @@ public class Booking extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        this.hide();
+        BookingForUser boo = new BookingForUser();
+        boo.show();
+//        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -434,15 +437,18 @@ public class Booking extends javax.swing.JFrame {
             String mobile = txtmno.getText();
             String date = txtdate.getText();
             String ddate = txtddate.getText();
+            String price = txtprice.getText();
           
             
-            pst = con.prepareStatement("insert into parkbook(parkno, seat, carnum, mobile, date, username)values(?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into parkbook(parkno, seat, carnum, mobile, date, username, price, due_date)values(?,?,?,?,?,?,?,?)");
             pst.setString(1, parkno);
             pst.setString(2, seat);
             pst.setString(3, carnum);
             pst.setString(4, mobile);
             pst.setString(5, date);
             pst.setString(6, getUsername());
+            pst.setString(7,price);
+            pst.setString(8, ddate);
             pst.executeUpdate();
             
             pst1 = con.prepareStatement("update seat set status = ? where seats = ? and date BETWEEN ? AND ?" );
