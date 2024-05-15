@@ -135,9 +135,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtuser">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Enter your username here"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtuserActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
@@ -151,9 +151,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtpass">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtpassActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
