@@ -56,7 +56,7 @@ public class Booking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/carregis";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -328,7 +328,7 @@ public class Booking extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "parkno", "seat", "status", "carnum", "mobile", "date", "due_date"
+                "parkno", "slot_no", "status", "carnum", "mobile", "date", "due_date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
