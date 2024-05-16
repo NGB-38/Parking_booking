@@ -24,6 +24,7 @@ public class CardDetails extends javax.swing.JFrame {
      */
     public CardDetails() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

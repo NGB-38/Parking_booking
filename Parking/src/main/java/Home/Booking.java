@@ -43,6 +43,7 @@ public class Booking extends javax.swing.JFrame {
     public Booking() {
         initComponents();
         Connect();
+        this.setLocationRelativeTo(null);
     }
     Connection con;
     PreparedStatement pst;

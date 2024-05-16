@@ -42,6 +42,7 @@ public class HistoryBooking extends javax.swing.JFrame {
     public HistoryBooking() {
         initComponents();
         Connect();
+        this.setLocationRelativeTo(null);
     }
     Connection con;
     PreparedStatement pst;

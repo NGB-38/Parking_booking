@@ -24,6 +24,7 @@ public class Payment extends javax.swing.JFrame {
      */
     public Payment() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

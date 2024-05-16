@@ -34,6 +34,7 @@ public class BookingForUser extends javax.swing.JFrame {
      */
     public BookingForUser() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
 
