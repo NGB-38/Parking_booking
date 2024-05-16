@@ -297,7 +297,7 @@ public class HistoryBooking extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "parkno", "seat", "username", "carnum", "mobile", "date", "due_date", "price", "status"
+                "parkno", "slot_no", "username", "carnum", "mobile", "date", "due_date", "price", "status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
