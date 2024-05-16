@@ -22,9 +22,9 @@ public class Login {
    public void Connect(){
         //connect vô database của mình, nguồn là mysql còn db tên là carregis (db phải in đậm mới xài được)
       
-        String url="jdbc:mysql://localhost:3306/carregis";
+        String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);

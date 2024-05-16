@@ -26,15 +26,19 @@ public class SeatAdd extends javax.swing.JFrame {
     }
     Connection con;
     PreparedStatement pst;
+    PreparedStatement pst1;
+
+    
+   
     
    
     
     public void Connect(){
         //connect vô database của mình, nguồn là mysql còn db tên là carregis (db phải in đậm mới xài được)
       
-        String url="jdbc:mysql://localhost:3306/carregis";
+        String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -203,27 +207,39 @@ public class SeatAdd extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String parkno = txtpark.getSelectedItem().toString();
-        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
-        String date = Date_Format.format(txtdate.getDate());
+        String parkid = txtpark.getSelectedItem().toString();
+//        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = txtdate.getDate();
         
         
        for(int i=1; i<=20; i++)
        {
-           int seats = i;
+           int slot_id = i;
            
             try {
-                pst = con.prepareStatement ("insert into seat(parkno, seats,date)values(?,?,?)");
-                pst.setString(1,parkno);
-                pst.setInt(2,seats);
-                pst.setString(3,date);
+                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
+//                pst.setString(1,parkid);
+                pst.setInt(1,slot_id);
+                pst.setDate(2,new java.sql.Date(date.getTime()));
+                pst.setString(3,parkid);
                 pst.executeUpdate();
-
+                            
+                //insert thẳng vào parking_slot 
+                
+                
             } catch (SQLException ex) {
                 Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
             }
        }
-       JOptionPane.showMessageDialog(this,"Seat Added");
+       
+        try {
+            pst1 = con.prepareStatement("insert into parking_lot(lot_id)values(?)");
+            pst1.setString(1,parkid);
+            pst1.executeUpdate();
+   
+        } catch (SQLException ex) {
+            Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
        
     }//GEN-LAST:event_jButton2ActionPerformed

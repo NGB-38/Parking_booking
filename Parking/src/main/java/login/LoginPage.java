@@ -33,9 +33,9 @@ public class LoginPage extends javax.swing.JFrame {
     public void Connect(){
         //connect vô database của mình, nguồn là mysql còn db tên là carregis (db phải in đậm mới xài được)
       
-        String url="jdbc:mysql://localhost:3306/carregis";
+        String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -219,7 +219,7 @@ public class LoginPage extends javax.swing.JFrame {
         String pass = txtpass.getText().toString();
         
         try{
-            String sql = "SELECT * FROM Customer WHERE USER_NAME=? AND password=?";
+            String sql = "SELECT * FROM customer WHERE USER_NAME=? AND password=?";
             pst = con.prepareCall(sql);
             
             pst.setString(1,un); //username

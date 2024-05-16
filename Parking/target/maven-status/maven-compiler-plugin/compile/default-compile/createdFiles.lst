@@ -24,6 +24,7 @@ Home\Payment.class
 login\SignUp.class
 Home\Booking.class
 Home\HistoryBooking$4.class
+login\SignUp$5.class
 Home\BookingMain$1.class
 Home\HomePage$3.class
 Home\HistoryBooking$2.class
@@ -40,7 +41,6 @@ Home\CardDetails.class
 Home\HistoryBooking$5.class
 Home\HomePage.class
 Home\SeatAdd$3.class
-Home\CardDetails$4.class
 Home\Payment$4.class
 login\Login.class
 Home\BookingForUser.class
