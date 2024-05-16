@@ -92,10 +92,10 @@
                       <Component id="txtddate" min="-2" pref="116" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
                           <Component id="txtveno" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtmno" max="32767" attributes="0"/>
+                          <Component id="txtsno" max="32767" attributes="0"/>
                           <Component id="txtdate" alignment="0" min="-2" pref="116" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="txtsno" min="-2" pref="116" max="-2" attributes="0"/>
+                      <Component id="txtlotno" min="-2" pref="116" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                           <Component id="jButton2" min="-2" max="-2" attributes="0"/>
@@ -117,12 +117,12 @@
                   </Group>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtsno" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtlotno" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtmno" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="txtsno" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
@@ -176,7 +176,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Seat No."/>
+            <Property name="text" type="java.lang.String" value="Lot No"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
@@ -204,7 +204,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Mobile No."/>
+            <Property name="text" type="java.lang.String" value="Slot No"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtveno">
@@ -212,12 +212,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtvenoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtsno">
+        <Component class="javax.swing.JTextField" name="txtlotno">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtsnoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtlotnoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtmno">
+        <Component class="javax.swing.JTextField" name="txtsno">
         </Component>
         <Component class="javax.swing.JTextField" name="txtdate">
         </Component>
@@ -377,28 +377,16 @@
             <Component class="javax.swing.JTable" name="jTable1">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="4">
-                    <Column editable="false" title="parkno" type="java.lang.Object"/>
-                    <Column editable="false" title="slot_no" type="java.lang.Object"/>
+                  <Table columnCount="5" rowCount="4">
+                    <Column editable="false" title="slot_id" type="java.lang.Object"/>
+                    <Column editable="false" title="lot_id" type="java.lang.Object"/>
                     <Column editable="false" title="status" type="java.lang.Object"/>
-                    <Column editable="false" title="carnum" type="java.lang.Object"/>
-                    <Column editable="false" title="mobile" type="java.lang.Object"/>
                     <Column editable="false" title="date" type="java.lang.Object"/>
                     <Column editable="false" title="due_date" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>

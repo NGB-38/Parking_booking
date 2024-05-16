@@ -78,7 +78,7 @@ public class SeatAdd extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(13, 17, 22));
 
-        txtpark.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1111", " " }));
+        txtpark.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1111", "2222" }));
         txtpark.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtparkActionPerformed(evt);
@@ -211,8 +211,8 @@ public class SeatAdd extends javax.swing.JFrame {
 //        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = txtdate.getDate();
         
-        
-       for(int i=1; i<=20; i++)
+       if(parkid.equals("1111")){
+           for(int i=1; i<=20; i++)
        {
            int slot_id = i;
            
@@ -231,6 +231,29 @@ public class SeatAdd extends javax.swing.JFrame {
                 Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
             }
        }
+       } 
+       else if(parkid.equals("2222")){
+           for(int i=21; i<=40; i++)
+       {
+           int slot_id = i;
+           
+            try {
+                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
+//                pst.setString(1,parkid);
+                pst.setInt(1,slot_id);
+                pst.setDate(2,new java.sql.Date(date.getTime()));
+                pst.setString(3,parkid);
+                pst.executeUpdate();
+                            
+                //insert thẳng vào parking_slot 
+                
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       }
+       }
+
        
         try {
             pst1 = con.prepareStatement("insert into parking_lot(lot_id)values(?)");

@@ -55,7 +55,7 @@ public class Booking extends javax.swing.JFrame {
      public void Connect(){
         //connect vô database của mình, nguồn là mysql còn db tên là carregis (db phải in đậm mới xài được)
       
-        String url="jdbc:mysql://localhost:3306/carregis";
+        String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
         String password="12345";
         try {
@@ -75,38 +75,51 @@ public class Booking extends javax.swing.JFrame {
 
     public void Load() {
     try {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String fromDate = df.format(txtdchooser.getDate());
-        String dueDate = df.format(txtddchooser.getDate());
-        
-        pst = con.prepareStatement("SELECT seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile, ? AS date, ? AS due_date "
-                + "FROM seat LEFT JOIN parkbook ON seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND seat.date = parkbook.date "
-                + "WHERE seat.date BETWEEN ? AND ? AND seat.status = 'Available' "
-                + "AND NOT EXISTS (SELECT 1 FROM parkbook "
-                + "WHERE seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND parkbook.date BETWEEN ? AND ?) "
-                + "GROUP BY seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile;");
-        pst.setString(1, fromDate);
-        pst.setString(2, dueDate);
-        pst.setString(3, fromDate);
-        pst.setString(4, dueDate);
-        pst.setString(5, fromDate);
-        pst.setString(6, dueDate);
-        rs = pst.executeQuery();
 
-        DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
-        d.setRowCount(0);
+//pst = con.prepareStatement("SELECT seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile, ? AS date, ? AS due_date "
+//                + "FROM seat LEFT JOIN parkbook ON seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND seat.date = parkbook.date "
+//                + "WHERE seat.date BETWEEN ? AND ? AND seat.status = 'Available' "
+//                + "AND NOT EXISTS (SELECT 1 FROM parkbook "
+//                + "WHERE seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND parkbook.date BETWEEN ? AND ?) "
+//                + "GROUP BY seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile;");
 
-        while (rs.next()) {
-            Vector v2 = new Vector();
-            v2.add(rs.getString("parkno"));
-            v2.add(rs.getString("seats"));
-            v2.add(rs.getString("status"));
-            v2.add(rs.getString("carnum"));
-            v2.add(rs.getString("mobile"));
-            v2.add(rs.getString("date"));
-            v2.add(rs.getString("due_date"));
-            d.addRow(v2);
-        }
+
+//seat là parking_slot (chỉ có date thui) còn reservation nó là parkbook ( có cả date và due_ date)
+
+           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            java.util.Date fromDate = txtdchooser.getDate();
+            java.util.Date dueDate = txtddchooser.getDate();
+            
+            
+            pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
+                    + "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
+                    + "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "
+                    + "AND NOT EXISTS (SELECT 1 FROM reservation "
+                    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
+                    + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+
+            pst.setDate(1, new java.sql.Date(fromDate.getTime()));
+            pst.setDate(2, new java.sql.Date(dueDate.getTime()));
+            pst.setDate(3, new java.sql.Date(fromDate.getTime()));
+            pst.setDate(4, new java.sql.Date(dueDate.getTime()));
+            pst.setDate(5, new java.sql.Date(fromDate.getTime()));
+            pst.setDate(6, new java.sql.Date(dueDate.getTime()));
+
+            rs = pst.executeQuery();
+
+            DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+            d.setRowCount(0);
+
+            while (rs.next()) {
+                    Vector v2 = new Vector();
+                v2.add(rs.getString("slot_id"));
+                v2.add(rs.getString("lot_id"));
+                v2.add(rs.getString("status"));
+               v2.add(format.format(fromDate)); // Add formatted fromDate
+                v2.add(format.format(dueDate)); 
+                d.addRow(v2);
+            }
         
         
     } catch (SQLException ex) {
@@ -114,12 +127,7 @@ public class Booking extends javax.swing.JFrame {
     }
 }
 
-
-
-
-
-     
-     
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -136,8 +144,8 @@ public class Booking extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtveno = new javax.swing.JTextField();
+        txtlotno = new javax.swing.JTextField();
         txtsno = new javax.swing.JTextField();
-        txtmno = new javax.swing.JTextField();
         txtdate = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -168,7 +176,7 @@ public class Booking extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(13, 17, 22));
         jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Seat No.");
+        jLabel3.setText("Lot No");
 
         jLabel4.setBackground(new java.awt.Color(13, 17, 22));
         jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -178,7 +186,7 @@ public class Booking extends javax.swing.JFrame {
         jLabel5.setBackground(new java.awt.Color(13, 17, 22));
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Mobile No.");
+        jLabel5.setText("Slot No");
 
         txtveno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,9 +194,9 @@ public class Booking extends javax.swing.JFrame {
             }
         });
 
-        txtsno.addActionListener(new java.awt.event.ActionListener() {
+        txtlotno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtsnoActionPerformed(evt);
+                txtlotnoActionPerformed(evt);
             }
         });
 
@@ -267,9 +275,9 @@ public class Booking extends javax.swing.JFrame {
                     .addComponent(txtddate, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtveno)
-                        .addComponent(txtmno)
+                        .addComponent(txtsno)
                         .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtsno, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtlotno, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addComponent(jButton2)))
@@ -286,11 +294,11 @@ public class Booking extends javax.swing.JFrame {
                     .addComponent(txtveno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtsno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtlotno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtmno, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtsno, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -323,17 +331,17 @@ public class Booking extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "parkno", "slot_no", "status", "carnum", "mobile", "date", "due_date"
+                "slot_id", "lot_id", "status", "date", "due_date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -437,10 +445,12 @@ public class Booking extends javax.swing.JFrame {
         
         if(!status.equals("Booked"))
         {
-            String seat = d1.getValueAt(selected, 1).toString();
-            String date = d1.getValueAt(selected, 5).toString();
-            String ddate = d1.getValueAt(selected,6).toString();
-            txtsno.setText(seat);
+            String lot_id = d1.getValueAt(selected, 1).toString();
+            String slot_id = d1.getValueAt(selected, 0).toString();
+            String date = d1.getValueAt(selected,3).toString();
+            String ddate = d1.getValueAt(selected,4).toString();
+            txtlotno.setText(lot_id);
+            txtsno.setText(slot_id);
             txtdate.setText(date);
             txtddate.setText(ddate);
             txtprice.setText(callPrice().toString());
@@ -483,66 +493,45 @@ public class Booking extends javax.swing.JFrame {
             DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
             int selected = jTable1.getSelectedRow();
             
-            String parkno = d1.getValueAt(selected, 0).toString();
+            String slot_id = d1.getValueAt(selected, 0).toString();
             
             String carnum = txtveno.getText();
-            String seat = txtsno.getText();
-            String mobile = txtmno.getText();
+            String lot_id = txtlotno.getText();
             String date = txtdate.getText();
             String ddate = txtddate.getText();
             String price = txtprice.getText();
           
             
-            pst = con.prepareStatement("insert into parkbook(parkno, seat, carnum, mobile, date, username, price, due_date)values(?,?,?,?,?,?,?,?)");
-            pst.setString(1, parkno);
-            pst.setString(2, seat);
-            pst.setString(3, carnum);
-            pst.setString(4, mobile);
-            pst.setString(5, date);
-            pst.setString(6, getUsername());
-            pst.setString(7,price);
-            pst.setString(8, ddate);
-            pst.executeUpdate();
+            pst = con.prepareStatement("insert into reservation(slot_id, vehicle_num, date, username, price, due_date)values(?,?,?,?,?,?)");
+            pst.setString(1, slot_id);
             
-            pst1 = con.prepareStatement("update seat set status = ? where seats = ? and date BETWEEN ? AND ?" );
+            pst.setString(2, carnum);
+            pst.setString(3, date);
+            pst.setString(4, getUsername());
+            pst.setString(5, price);
+            pst.setString(6,ddate);
+            pst.executeUpdate();
+//            
+            pst1 = con.prepareStatement("update parking_slot set status = ? where slot_id = ? and lot_id = ? and date BETWEEN ? AND ?" );
             pst1.setString(1, "Booked");
-            pst1.setString(2, seat);
-            pst1.setString(3,date);
-            pst1.setString(4,ddate);
+            pst1.setString(2, slot_id);         
+            pst1.setString(3,lot_id);          
+            pst1.setString(4,date);
+            pst1.setString(5,ddate);
+
             pst1.executeUpdate();
             
+            
             JOptionPane.showMessageDialog(this, "Slot Booked");
-            
-            
+                        Load();
 
-            String priceString = txtprice.getText(); 
-            BigDecimal priceBigDecimal = new BigDecimal(priceString);
-            
-            pst2 = con.prepareStatement(
-            "INSERT INTO reservation (parkno, seat, carnum, mobile, date, username, price, due_date, status) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-            "ON DUPLICATE KEY UPDATE status = VALUES(status)");
-            pst2.setString(1, parkno);
-            pst2.setString(2, seat);
-            pst2.setString(3, carnum);
-            pst2.setString(4, mobile);
-            pst2.setString(5, date);
-            pst2.setString(6, getUsername());
-            pst2.setBigDecimal(7, priceBigDecimal);
-            pst2.setString(8, ddate);
-            pst2.setString(9, "Unpaid");
-            pst2.executeUpdate();
-
-            
-            Load();
-            
-            txtveno.setText("");
-            txtsno.setText("");
-            txtmno.setText("");
-            txtdate.setText("");
-            txtddate.setText("");
-            txtprice.setText("");
-            
+//            txtveno.setText("");
+//            txtlotno.setText("");
+//            txtsno.setText("");
+//            txtdate.setText("");
+//            txtddate.setText("");
+//            txtprice.setText("");
+////            
         } catch (SQLException ex) {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -561,9 +550,9 @@ public class Booking extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtddateActionPerformed
 
-    private void txtsnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtsnoActionPerformed
+    private void txtlotnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtlotnoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtsnoActionPerformed
+    }//GEN-LAST:event_txtlotnoActionPerformed
 
     
 
@@ -623,7 +612,7 @@ public class Booking extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser txtdchooser;
     private javax.swing.JTextField txtddate;
     private com.toedter.calendar.JDateChooser txtddchooser;
-    private javax.swing.JTextField txtmno;
+    private javax.swing.JTextField txtlotno;
     private javax.swing.JTextField txtprice;
     private javax.swing.JTextField txtsno;
     private javax.swing.JTextField txtveno;
