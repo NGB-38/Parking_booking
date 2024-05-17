@@ -92,19 +92,45 @@ public class Booking extends javax.swing.JFrame {
             java.util.Date dueDate = txtddchooser.getDate();
             
             
-            pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
-                    + "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
-                    + "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "
-                    + "AND NOT EXISTS (SELECT 1 FROM reservation "
-                    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
-                    + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+//            pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
+//                    + "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
+//                    + "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "
+//                    + "AND NOT EXISTS (SELECT 1 FROM reservation "
+//                    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
+//                    + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
 
-            pst.setDate(1, new java.sql.Date(fromDate.getTime()));
-            pst.setDate(2, new java.sql.Date(dueDate.getTime()));
-            pst.setDate(3, new java.sql.Date(fromDate.getTime()));
-            pst.setDate(4, new java.sql.Date(dueDate.getTime()));
-            pst.setDate(5, new java.sql.Date(fromDate.getTime()));
-            pst.setDate(6, new java.sql.Date(dueDate.getTime()));
+
+//            pst.setDate(1, new java.sql.Date(fromDate.getTime()));
+//            pst.setDate(2, new java.sql.Date(dueDate.getTime()));
+//            pst.setDate(3, new java.sql.Date(fromDate.getTime()));
+//            pst.setDate(4, new java.sql.Date(dueDate.getTime()));
+//            pst.setDate(5, new java.sql.Date(fromDate.getTime()));
+//            pst.setDate(6, new java.sql.Date(dueDate.getTime()));
+            pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
+        + "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
+        + "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "
+        + "AND NOT EXISTS (SELECT 1 FROM reservation "
+        + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
+        + "AND ? <> ? "
+        + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+
+        pst.setDate(1, new java.sql.Date(fromDate.getTime()));
+        pst.setDate(2, new java.sql.Date(dueDate.getTime()));
+        pst.setDate(3, new java.sql.Date(fromDate.getTime()));
+        pst.setDate(4, new java.sql.Date(dueDate.getTime()));
+        pst.setDate(5, new java.sql.Date(fromDate.getTime()));
+        pst.setDate(6, new java.sql.Date(dueDate.getTime()));
+        pst.setDate(7, new java.sql.Date(fromDate.getTime()));
+        pst.setDate(8, new java.sql.Date(dueDate.getTime()));
+
+
+
+
+        if (fromDate.equals(dueDate)) {
+    // Display an error message or handle the case where fromDate and dueDate are the same
+            JOptionPane.showMessageDialog(rootPane, "From date and due date cannot be the same.");
+            return;
+        }
 
             rs = pst.executeQuery();
 
@@ -512,25 +538,25 @@ public class Booking extends javax.swing.JFrame {
             pst.setString(6,ddate);
             pst.executeUpdate();
 //            
-            pst1 = con.prepareStatement("update parking_slot set status = ? where slot_id = ? and lot_id = ? and date BETWEEN ? AND ?" );
-            pst1.setString(1, "Booked");
-            pst1.setString(2, slot_id);         
-            pst1.setString(3,lot_id);          
-            pst1.setString(4,date);
-            pst1.setString(5,ddate);
+            pst1 = con.prepareStatement("update parking_slot set status = 'Booked' where slot_id = ? and lot_id = ? and date BETWEEN ? AND ?" );
+//            pst1.setString(1, "Booked");
+            pst1.setString(1, slot_id);         
+            pst1.setString(2,lot_id);          
+            pst1.setString(3,date);
+            pst1.setString(4,ddate);
 
             pst1.executeUpdate();
             
             
             JOptionPane.showMessageDialog(this, "Slot Booked");
-                        Load();
+            Load();
 
-//            txtveno.setText("");
-//            txtlotno.setText("");
-//            txtsno.setText("");
-//            txtdate.setText("");
-//            txtddate.setText("");
-//            txtprice.setText("");
+            txtveno.setText("");
+            txtlotno.setText("");
+            txtsno.setText("");
+            txtdate.setText("");
+            txtddate.setText("");
+            txtprice.setText("");
 ////            
         } catch (SQLException ex) {
             Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);

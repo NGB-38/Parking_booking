@@ -72,6 +72,8 @@ public class SeatAdd extends javax.swing.JFrame {
         txtdate = new com.toedter.calendar.JDateChooser();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtparkaddress = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(13, 17, 22));
@@ -120,6 +122,17 @@ public class SeatAdd extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("G4PARK");
 
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Park Address");
+
+        txtparkaddress.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Street A", "Street B" }));
+        txtparkaddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtparkaddressActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -137,7 +150,8 @@ public class SeatAdd extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtdate, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                            .addComponent(txtpark, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtpark, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtparkaddress, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(41, 41, 41))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,6 +164,10 @@ public class SeatAdd extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(67, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,11 +178,15 @@ public class SeatAdd extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtpark, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtparkaddress, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -192,8 +214,8 @@ public class SeatAdd extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -208,10 +230,12 @@ public class SeatAdd extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         String parkid = txtpark.getSelectedItem().toString();
+        String address = txtparkaddress.getSelectedItem().toString();
+
 //        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = txtdate.getDate();
         
-       if(parkid.equals("1111")){
+       if(parkid.equals("1111") && address.equals("Street A")){
            for(int i=1; i<=20; i++)
        {
            int slot_id = i;
@@ -224,15 +248,19 @@ public class SeatAdd extends javax.swing.JFrame {
                 pst.setString(3,parkid);
                 pst.executeUpdate();
                             
-                //insert thẳng vào parking_slot 
-                
+                //insert thẳng vào parking_slot
+                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
+//                pst1.setString(1,parkid);
+                pst1.setString(1,address);
+                pst1.executeUpdate();
+//                
                 
             } catch (SQLException ex) {
                 Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
             }
        }
        } 
-       else if(parkid.equals("2222")){
+       else if(parkid.equals("2222")&& address.equals("Street B")){
            for(int i=21; i<=40; i++)
        {
            int slot_id = i;
@@ -244,6 +272,11 @@ public class SeatAdd extends javax.swing.JFrame {
                 pst.setDate(2,new java.sql.Date(date.getTime()));
                 pst.setString(3,parkid);
                 pst.executeUpdate();
+                
+                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
+//                pst1.setString(1,parkid);
+                pst1.setString(1,address);
+                pst1.executeUpdate();
                             
                 //insert thẳng vào parking_slot 
                 
@@ -253,23 +286,39 @@ public class SeatAdd extends javax.swing.JFrame {
             }
        }
        }
+           else{
+                               JOptionPane.showMessageDialog(this, "Wrong address for parking");
+
+                   }
+           
+       
 
        
-        try {
-            pst1 = con.prepareStatement("insert into parking_lot(lot_id)values(?)");
-            pst1.setString(1,parkid);
-            pst1.executeUpdate();
-   
-        } catch (SQLException ex) {
-            Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+//        try {
+//            pst1 = con.prepareStatement("update parking_lot set status = ? where slot_id = ? and lot_id = ? and date BETWEEN ? AND ?" );
+//            pst1.setString(1, "Booked");
+//            pst1.setString(2, slot_id);         
+//            pst1.setString(3,lot_id);          
+//            pst1.setString(4,date);
+//            pst1.setString(5,ddate);
+//
+//            pst1.executeUpdate();
+//   
+//        } catch (SQLException ex) {
+//            Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//       
+
        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtparkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtparkActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtparkActionPerformed
+
+    private void txtparkaddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtparkaddressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtparkaddressActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,8 +383,10 @@ public class SeatAdd extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private com.toedter.calendar.JDateChooser txtdate;
     private javax.swing.JComboBox<String> txtpark;
+    private javax.swing.JComboBox<String> txtparkaddress;
     // End of variables declaration//GEN-END:variables
 }
