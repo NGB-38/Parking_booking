@@ -232,6 +232,10 @@ public class SeatAdd extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
+        
+        //if create by month error then create by slot by slot first
+        
 //         String parkid = txtpark.getSelectedItem().toString();
 ////        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
 //        java.util.Date date = txtdate.getDate();
@@ -271,73 +275,11 @@ public class SeatAdd extends javax.swing.JFrame {
 //       
 //       JOptionPane.showMessageDialog(this,"Seat Added");
         
+                            //use the code above
+
+
         
-//        String parkid = txtpark.getSelectedItem().toString();
-////        String address = txtparkaddress.getSelectedItem().toString();
-//
-////        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
-//        java.util.Date date = txtdate.getDate();
-//        
-////       if(parkid.equals("1111")){
-//           for(int i=1; i<=20; i++)
-//       {
-//           int slot_id = i;
-//           
-//            try {
-//                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
-////                pst.setString(1,parkid);
-//                pst.setInt(1,slot_id);
-//                pst.setDate(2,new java.sql.Date(date.getTime()));
-//                pst.setString(3,parkid);
-//                pst.executeUpdate();
-//                            
-////                //insert thẳng vào parking_slot
-////                pst1 = con.prepareStatement("update parking_lot(lot_id)values(?)");
-////                pst1.setString(1,parkid);
-//////                pst1.setString(1,address);
-////                pst1.executeUpdate();
-////                
-//                
-//            } catch (SQLException ex) {
-//                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//       }
-//       } 
-////       else if(parkid.equals("2222")){
-////           for(int i=21; i<=40; i++)
-////       {
-////           int slot_id = i;
-////           
-//            try {
-////                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
-//////                pst.setString(1,parkid);
-////                pst.setInt(1,slot_id);
-////                pst.setDate(2,new java.sql.Date(date.getTime()));
-////                pst.setString(3,parkid);
-////                pst.executeUpdate();
-//                
-////                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
-//////                pst1.setString(1,parkid);
-////                pst1.setString(1,address);
-////                pst1.executeUpdate();
-//                            
-//                //insert thẳng vào parking_slot 
-//                
-//                
-//            } catch (SQLException ex) {
-//                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//       }
-//       }
-//           else{
-//                               JOptionPane.showMessageDialog(this, "Wrong address for parking");
-//
-//                   }
-//           
 
-
-
-//       
             String parkid = txtpark.getSelectedItem().toString();
             String address = txtparkaddress.getSelectedItem().toString();
 
@@ -345,28 +287,59 @@ public class SeatAdd extends javax.swing.JFrame {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(selectedDate);
 
-// Iterate through the days of the month
-                for (int day = 1; day <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); day++) {
-                        calendar.set(Calendar.DAY_OF_MONTH, day);
-                        java.sql.Date currentDate = new java.sql.Date(calendar.getTimeInMillis());
+            // Iterate through the days of the month
+            for (int day = 1; day <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); day++) {
+                    calendar.set(Calendar.DAY_OF_MONTH, day);
+                java.sql.Date currentDate = new java.sql.Date(calendar.getTimeInMillis());
 
-                if (parkid.equals("1111") && address.equals("Street A")) {
-                    for (int i = 1; i <= 20; i++) {
-                           int slot_id = i;
+            if (parkid.equals("1111") && address.equals("Street A")) {
+                for (int i = 1; i <= 20; i++) {
+                    int slot_id = i;
 
             try {
+                // Start a transaction
+                con.setAutoCommit(false);
+
+                // Check if the lot_id already exists in the parking_lot table
+                String checkLotIdQuery = "SELECT COUNT(*) FROM parking_lot WHERE lot_id = ?";
+                pst = con.prepareStatement(checkLotIdQuery);
+                pst.setString(1, parkid);
+                ResultSet rs = pst.executeQuery();
+                rs.next();
+                int count = rs.getInt(1);
+
+                if (count == 0) {
+                    // The lot_id does not exist, so insert a new row into the parking_lot table
+                    pst1 = con.prepareStatement("insert into parking_lot(address, lot_id) values(?, ?)");
+                    pst1.setString(1, address);
+                    pst1.setString(2, parkid);
+                    pst1.executeUpdate();
+                }
+
+                // Insert the row into the parking_slot table
                 pst = con.prepareStatement("insert into parking_slot(slot_id, date, lot_id) values(?, ?, ?)");
                 pst.setInt(1, slot_id);
                 pst.setDate(2, currentDate);
                 pst.setString(3, parkid);
                 pst.executeUpdate();
 
-                pst1 = con.prepareStatement("update parking_lot set address = ? where lot_id = ?");
-                pst1.setString(1, address);
-                pst1.setString(2, parkid);
-                pst1.executeUpdate();
+                // Commit the transaction
+                con.commit();
             } catch (SQLException ex) {
+                try {
+                    // Roll back the transaction in case of any error
+                    con.rollback();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    // Reset the auto-commit mode
+                    con.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     } else if (parkid.equals("2222") && address.equals("Street B")) {
@@ -374,23 +347,53 @@ public class SeatAdd extends javax.swing.JFrame {
             int slot_id = i;
 
             try {
+                // Start a transaction
+                con.setAutoCommit(false);
+
+                // Check if the lot_id already exists in the parking_lot table
+                String checkLotIdQuery = "SELECT COUNT(*) FROM parking_lot WHERE lot_id = ?";
+                pst = con.prepareStatement(checkLotIdQuery);
+                pst.setString(1, parkid);
+                ResultSet rs = pst.executeQuery();
+                rs.next();
+                int count = rs.getInt(1);
+
+                if (count == 0) {
+                    // The lot_id does not exist, so insert a new row into the parking_lot table
+                    pst1 = con.prepareStatement("insert into parking_lot(address, lot_id) values(?, ?)");
+                    pst1.setString(1, address);
+                    pst1.setString(2, parkid);
+                    pst1.executeUpdate();
+                }
+
+                // Insert the row into the parking_slot table
                 pst = con.prepareStatement("insert into parking_slot(slot_id, date, lot_id) values(?, ?, ?)");
                 pst.setInt(1, slot_id);
                 pst.setDate(2, currentDate);
                 pst.setString(3, parkid);
                 pst.executeUpdate();
 
-                pst1 = con.prepareStatement("update parking_lot set address = ? where lot_id = ?");
-                pst1.setString(1, address);
-                pst1.setString(2, parkid);
-                pst1.executeUpdate();
+                // Commit the transaction
+                con.commit();
             } catch (SQLException ex) {
+                try {
+                    // Roll back the transaction in case of any error
+                    con.rollback();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    // Reset the auto-commit mode
+                    con.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
-}
-
+}           
        
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -428,27 +431,6 @@ public class SeatAdd extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(SeatAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-//        String url="jdbc:mysql://localhost:3306/mysql";
-//        String user="root";
-//        String password="12345";
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            Connection connection = DriverManager.getConnection(url, user, password);
-//            System.out.println("Connection is Successful to the database"+url);
-////            String query = "insert into customer(id, vehicle_number, registration_date,contact_number) values(1,'123','2022-2-2','0000000000')";
-////            Statement statement = connection.createStatement(query);
-////            statement.execute(query);
-////        
-////        
-////        
-//            } 
-//            catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//            } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//            }
-//            }
-//            }
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
