@@ -5,6 +5,7 @@
 package Home;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -229,69 +230,124 @@ public class SeatAdd extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String parkid = txtpark.getSelectedItem().toString();
-        String address = txtparkaddress.getSelectedItem().toString();
-
-//        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date date = txtdate.getDate();
-        
-       if(parkid.equals("1111") && address.equals("Street A")){
-           for(int i=1; i<=20; i++)
-       {
-           int slot_id = i;
-           
-            try {
-                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
-//                pst.setString(1,parkid);
-                pst.setInt(1,slot_id);
-                pst.setDate(2,new java.sql.Date(date.getTime()));
-                pst.setString(3,parkid);
-                pst.executeUpdate();
-                            
-                //insert thẳng vào parking_slot
-                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
-//                pst1.setString(1,parkid);
-                pst1.setString(1,address);
-                pst1.executeUpdate();
+//        String parkid = txtpark.getSelectedItem().toString();
+//        String address = txtparkaddress.getSelectedItem().toString();
+//
+////        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
+//        java.util.Date date = txtdate.getDate();
+//        
+//       if(parkid.equals("1111") && address.equals("Street A")){
+//           for(int i=1; i<=20; i++)
+//       {
+//           int slot_id = i;
+//           
+//            try {
+//                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
+////                pst.setString(1,parkid);
+//                pst.setInt(1,slot_id);
+//                pst.setDate(2,new java.sql.Date(date.getTime()));
+//                pst.setString(3,parkid);
+//                pst.executeUpdate();
+//                            
+//                //insert thẳng vào parking_slot
+//                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
+////                pst1.setString(1,parkid);
+//                pst1.setString(1,address);
+//                pst1.executeUpdate();
+////                
 //                
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
-            }
-       }
-       } 
-       else if(parkid.equals("2222")&& address.equals("Street B")){
-           for(int i=21; i<=40; i++)
-       {
-           int slot_id = i;
-           
-            try {
-                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
-//                pst.setString(1,parkid);
-                pst.setInt(1,slot_id);
-                pst.setDate(2,new java.sql.Date(date.getTime()));
-                pst.setString(3,parkid);
-                pst.executeUpdate();
-                
-                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
-//                pst1.setString(1,parkid);
-                pst1.setString(1,address);
-                pst1.executeUpdate();
-                            
-                //insert thẳng vào parking_slot 
-                
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
-            }
-       }
-       }
-           else{
-                               JOptionPane.showMessageDialog(this, "Wrong address for parking");
+//            } catch (SQLException ex) {
+//                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//       }
+//       } 
+//       else if(parkid.equals("2222")&& address.equals("Street B")){
+//           for(int i=21; i<=40; i++)
+//       {
+//           int slot_id = i;
+//           
+//            try {
+//                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
+////                pst.setString(1,parkid);
+//                pst.setInt(1,slot_id);
+//                pst.setDate(2,new java.sql.Date(date.getTime()));
+//                pst.setString(3,parkid);
+//                pst.executeUpdate();
+//                
+//                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
+////                pst1.setString(1,parkid);
+//                pst1.setString(1,address);
+//                pst1.executeUpdate();
+//                            
+//                //insert thẳng vào parking_slot 
+//                
+//                
+//            } catch (SQLException ex) {
+//                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//       }
+//       }
+//           else{
+//                               JOptionPane.showMessageDialog(this, "Wrong address for parking");
+//
+//                   }
+//           
+//       
+String parkid = txtpark.getSelectedItem().toString();
+String address = txtparkaddress.getSelectedItem().toString();
 
-                   }
-           
-       
+java.util.Date selectedDate = txtdate.getDate();
+Calendar calendar = Calendar.getInstance();
+calendar.setTime(selectedDate);
+
+// Iterate through the days of the month
+for (int day = 1; day <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); day++) {
+    calendar.set(Calendar.DAY_OF_MONTH, day);
+    java.sql.Date currentDate = new java.sql.Date(calendar.getTimeInMillis());
+
+    if (parkid.equals("1111") && address.equals("Street A")) {
+        for (int i = 1; i <= 20; i++) {
+            int slot_id = i;
+
+            try {
+                pst = con.prepareStatement("insert into parking_slot(slot_id, date, lot_id) values(?, ?, ?)");
+                pst.setInt(1, slot_id);
+                pst.setDate(2, currentDate);
+                pst.setString(3, parkid);
+                pst.executeUpdate();
+
+                pst1 = con.prepareStatement("update parking_lot set address = ? where lot_id = ?");
+                pst1.setString(1, address);
+                pst1.setString(2, parkid);
+                pst1.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    } else if (parkid.equals("2222") && address.equals("Street B")) {
+        for (int i = 21; i <= 40; i++) {
+            int slot_id = i;
+
+            try {
+                pst = con.prepareStatement("insert into parking_slot(slot_id, date, lot_id) values(?, ?, ?)");
+                pst.setInt(1, slot_id);
+                pst.setDate(2, currentDate);
+                pst.setString(3, parkid);
+                pst.executeUpdate();
+
+                pst1 = con.prepareStatement("update parking_lot set address = ? where lot_id = ?");
+                pst1.setString(1, address);
+                pst1.setString(2, parkid);
+                pst1.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+}
+
+
+
 
        
 //        try {
