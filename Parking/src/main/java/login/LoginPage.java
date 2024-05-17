@@ -217,6 +217,7 @@ public class LoginPage extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String un = txtuser.getText().toString();
         String pass = txtpass.getText().toString();
+
         try{
             String sql = "SELECT * FROM customer WHERE USER_NAME=? AND password=?";
             pst = con.prepareCall(sql);
@@ -227,25 +228,78 @@ public class LoginPage extends javax.swing.JFrame {
             
             if(rs.next()){
                 this.hide();
-                String roleFromDB = rs.getString("role"); // Assuming there's a 'role' column in the 'customer' table
                 String usernameFromDB = rs.getString("USER_NAME");
                 String passwordFromDB = rs.getString("password");
+                int roleFromDB = rs.getInt("role"); 
 
                 if(un.equals(usernameFromDB) && pass.equals(passwordFromDB)){
-                    HomePage home = new HomePage();
-                    home.show();}
-                else {
+                    if(roleFromDB ==1){
+                        HomePage home = new HomePage();
+                        home.show();
+                    } else if (roleFromDB ==0){
                     BookingForUser uspage = new BookingForUser();
                     uspage.setUsername(un);
                     uspage.show();
+                    }else{
+                        JOptionPane.showMessageDialog(rootPane,"Login meomeo");
+                        this.show();
+                    }
+                    } else{
+                    JOptionPane.showMessageDialog(rootPane,"Login failed");
+                    this.show();
                 }
-            } else{
-                JOptionPane.showMessageDialog(rootPane,"Login failed");
-                this.show();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Login failed");
+                    this.show();
             }
         } catch (Exception e){
             JOptionPane.showMessageDialog(rootPane, "Error");
         }
+
+
+//        String un = txtuser.getText().toString();
+//        String pass = txtpass.getText().toString();
+//        int role=1;
+//        try{
+//            String sql = "SELECT * FROM customer WHERE USER_NAME=? AND password=? AND role =?";
+//            pst = con.prepareCall(sql);
+//            
+//            pst.setString(1,un); //username
+//            pst.setString(2,pass); //password
+//            pst.setInt(3, role);
+//            rs = pst.executeQuery();
+//            
+//            if(rs.next()){
+//                this.hide();
+////                String roleFromDB = rs.getString("role"); // Assuming there's a 'role' column in the 'customer' table
+//                String usernameFromDB = rs.getString("USER_NAME");
+//                String passwordFromDB = rs.getString("password");
+//
+//                if(un.equals(usernameFromDB) && pass.equals(passwordFromDB) && (role==1)){
+//                    HomePage home = new HomePage();
+//                    home.setUsername(un);
+//                    home.show();
+//                    JOptionPane.showMessageDialog(rootPane,"Login success");
+//
+//                }
+//                else if(un.equals(usernameFromDB) && pass.equals(passwordFromDB)) {
+//                    BookingForUser uspage = new BookingForUser();
+//                    uspage.setUsername(un);
+//                    uspage.show();
+//                   JOptionPane.showMessageDialog(rootPane,"Login success");
+//
+//                }
+//                else{
+//                JOptionPane.showMessageDialog(rootPane,"Login failed");
+//
+//                }
+//            }else{
+//                JOptionPane.showMessageDialog(rootPane,"Login failed");
+//                this.show();
+//            }
+//        } catch (Exception e){
+//            JOptionPane.showMessageDialog(rootPane, "Error");
+//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
