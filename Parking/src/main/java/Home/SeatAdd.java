@@ -225,18 +225,60 @@ public class SeatAdd extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        this.hide();
+        HomePage h1 = new HomePage();
+        h1.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+//         String parkid = txtpark.getSelectedItem().toString();
+////        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
+//        java.util.Date date = txtdate.getDate();
+//        
+//        
+//       for(int i=1; i<=20; i++)
+//       {
+//           int slot_id = i;
+//           
+//            try {
+//                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
+////                pst.setString(1,parkid);
+//                pst.setInt(1,slot_id);
+//                pst.setDate(2,new java.sql.Date(date.getTime()));
+//                pst.setString(3,parkid);
+//                pst.executeUpdate();
+//                            
+//                //insert thẳng vào parking_slot 
+//                
+//                
+//            } catch (SQLException ex) {
+//                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//       }
+//       
+//        try {
+//            pst1 = con.prepareStatement("insert into parking_lot(lot_id)values(?)");
+//            pst1.setString(1,parkid);
+//            pst1.executeUpdate();
+//   
+//        } catch (SQLException ex) {
+//            Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//
+//       
+//       
+//       JOptionPane.showMessageDialog(this,"Seat Added");
+        
+        
 //        String parkid = txtpark.getSelectedItem().toString();
-//        String address = txtparkaddress.getSelectedItem().toString();
+////        String address = txtparkaddress.getSelectedItem().toString();
 //
 ////        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
 //        java.util.Date date = txtdate.getDate();
 //        
-//       if(parkid.equals("1111") && address.equals("Street A")){
+////       if(parkid.equals("1111")){
 //           for(int i=1; i<=20; i++)
 //       {
 //           int slot_id = i;
@@ -249,11 +291,11 @@ public class SeatAdd extends javax.swing.JFrame {
 //                pst.setString(3,parkid);
 //                pst.executeUpdate();
 //                            
-//                //insert thẳng vào parking_slot
-//                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
+////                //insert thẳng vào parking_slot
+////                pst1 = con.prepareStatement("update parking_lot(lot_id)values(?)");
 ////                pst1.setString(1,parkid);
-//                pst1.setString(1,address);
-//                pst1.executeUpdate();
+//////                pst1.setString(1,address);
+////                pst1.executeUpdate();
 ////                
 //                
 //            } catch (SQLException ex) {
@@ -261,23 +303,23 @@ public class SeatAdd extends javax.swing.JFrame {
 //            }
 //       }
 //       } 
-//       else if(parkid.equals("2222")&& address.equals("Street B")){
-//           for(int i=21; i<=40; i++)
-//       {
-//           int slot_id = i;
-//           
+////       else if(parkid.equals("2222")){
+////           for(int i=21; i<=40; i++)
+////       {
+////           int slot_id = i;
+////           
 //            try {
-//                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
-////                pst.setString(1,parkid);
-//                pst.setInt(1,slot_id);
-//                pst.setDate(2,new java.sql.Date(date.getTime()));
-//                pst.setString(3,parkid);
-//                pst.executeUpdate();
+////                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
+//////                pst.setString(1,parkid);
+////                pst.setInt(1,slot_id);
+////                pst.setDate(2,new java.sql.Date(date.getTime()));
+////                pst.setString(3,parkid);
+////                pst.executeUpdate();
 //                
-//                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
-////                pst1.setString(1,parkid);
-//                pst1.setString(1,address);
-//                pst1.executeUpdate();
+////                pst1 = con.prepareStatement("update parking_lot(address)values(?)");
+//////                pst1.setString(1,parkid);
+////                pst1.setString(1,address);
+////                pst1.executeUpdate();
 //                            
 //                //insert thẳng vào parking_slot 
 //                
@@ -292,6 +334,9 @@ public class SeatAdd extends javax.swing.JFrame {
 //
 //                   }
 //           
+
+
+
 //       
             String parkid = txtpark.getSelectedItem().toString();
             String address = txtparkaddress.getSelectedItem().toString();

@@ -177,6 +177,8 @@ public class BookingForUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        
         this.hide();
         Booking page = new Booking();
         page.setUsername(getUsername());

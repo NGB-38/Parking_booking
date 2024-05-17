@@ -14,6 +14,15 @@ import login.LoginPage;
  * @author rat
  */
 public class HomePage extends javax.swing.JFrame {
+    private String username;
+    
+    public void setUsername(String username){
+        this.username = username;
+    }
+    
+    public String getUsername(){
+        return username;
+    }
 
     /**
      * Creates new form HomePage
@@ -171,6 +180,7 @@ public class HomePage extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.hide();
         Booking book = new Booking();
+        book.setUsername(getUsername());
         book.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -238,4 +248,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
+
+    
 }
