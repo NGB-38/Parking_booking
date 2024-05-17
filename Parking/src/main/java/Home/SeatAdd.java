@@ -90,7 +90,7 @@ public class SeatAdd extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("SEAT ADD");
+        jLabel1.setText("SLOT ADD");
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -293,21 +293,21 @@ public class SeatAdd extends javax.swing.JFrame {
 //                   }
 //           
 //       
-String parkid = txtpark.getSelectedItem().toString();
-String address = txtparkaddress.getSelectedItem().toString();
+            String parkid = txtpark.getSelectedItem().toString();
+            String address = txtparkaddress.getSelectedItem().toString();
 
-java.util.Date selectedDate = txtdate.getDate();
-Calendar calendar = Calendar.getInstance();
-calendar.setTime(selectedDate);
+            java.util.Date selectedDate = txtdate.getDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(selectedDate);
 
 // Iterate through the days of the month
-for (int day = 1; day <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); day++) {
-    calendar.set(Calendar.DAY_OF_MONTH, day);
-    java.sql.Date currentDate = new java.sql.Date(calendar.getTimeInMillis());
+                for (int day = 1; day <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); day++) {
+                        calendar.set(Calendar.DAY_OF_MONTH, day);
+                        java.sql.Date currentDate = new java.sql.Date(calendar.getTimeInMillis());
 
-    if (parkid.equals("1111") && address.equals("Street A")) {
-        for (int i = 1; i <= 20; i++) {
-            int slot_id = i;
+                if (parkid.equals("1111") && address.equals("Street A")) {
+                    for (int i = 1; i <= 20; i++) {
+                           int slot_id = i;
 
             try {
                 pst = con.prepareStatement("insert into parking_slot(slot_id, date, lot_id) values(?, ?, ?)");
@@ -345,25 +345,6 @@ for (int day = 1; day <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); day++
         }
     }
 }
-
-
-
-
-       
-//        try {
-//            pst1 = con.prepareStatement("update parking_lot set status = ? where slot_id = ? and lot_id = ? and date BETWEEN ? AND ?" );
-//            pst1.setString(1, "Booked");
-//            pst1.setString(2, slot_id);         
-//            pst1.setString(3,lot_id);          
-//            pst1.setString(4,date);
-//            pst1.setString(5,ddate);
-//
-//            pst1.executeUpdate();
-//   
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//       
 
        
     }//GEN-LAST:event_jButton2ActionPerformed

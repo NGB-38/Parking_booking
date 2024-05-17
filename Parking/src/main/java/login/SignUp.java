@@ -211,14 +211,20 @@ public class SignUp extends javax.swing.JFrame {
             String username = txtuser.getText().toString();
             String pass = txtpass.getText().toString();
             String mobile = txtmobile.getText().toString();
-            
+            int role =1;
             try{
+                
+            if(username.matches("(?i).*admin.*")) {
+                JOptionPane.showMessageDialog(rootPane, "Username with string 'admin' is not accepted");
+            }   
+            else{
             pst = con.prepareStatement ("insert into customer(USER_NAME, password, mobile)values(?,?,?)");
             pst.setString(1,username);
             pst.setString(2,pass);
             pst.setString(3,mobile);
             pst.executeUpdate();
             
+
             JOptionPane.showMessageDialog(rootPane, "Account created");
             if(username.equals("admin"))
             {
@@ -226,6 +232,7 @@ public class SignUp extends javax.swing.JFrame {
                 HomePage home = new HomePage();
                 home.show();
             }
+            
             else
             {
             this.hide();
@@ -233,7 +240,7 @@ public class SignUp extends javax.swing.JFrame {
             home.setUsername(username);
             home.show();  
             }
-            
+            }
             }catch(Exception e){
                 JOptionPane.showMessageDialog(rootPane, "Username taken, sign up failed");
             }
