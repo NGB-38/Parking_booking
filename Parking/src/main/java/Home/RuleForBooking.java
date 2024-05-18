@@ -38,7 +38,7 @@ public class RuleForBooking extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("\t                   TERMS OF USE  \n\n- When booking, choose a booking date (From) that is smaller than \nthe return date (To) (for example From 10 - To 12)\n- You can only book through the day, do not accept \nsame-day bookings (eg From 10 but to 10)\n- If you fall into 1 of 2 cases, the system will not \ndisplay the available space\n- When booking, the time is calculated from 12pm on the day of \nbooking to 12pm on the day of departure. \nWe do this so that you can have flexibility in arrival/departure times.\n- At STREET A & park 1111, the slot is \n- Price will be 20$ for 1 day (From 10 - To 11 for example)");
+        jTextArea1.setText("\t                   TERMS OF USE  \n\n- When booking, choose a booking date (From) that is smaller than \nthe return date (To) (for example From 10 - To 12)\n- You can only book through the day, do not accept \nsame-day bookings (eg From 10 but to 10)\n- If you fall into 1 of 2 cases, the system will not \ndisplay the available space\n- When booking, the time is calculated from 12pm on the day of \nbooking to 12pm on the day of departure. \nWe do this so that you can have flexibility in arrival/departure times.\n- At STREET A & park 1111, the slot is marked from 1-20\n- At STREET B & park 2222, the slot is marked from 21-40\n- Price will be 20$ for 1 day (From 10 - To 11 for example)");
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

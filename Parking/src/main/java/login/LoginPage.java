@@ -241,7 +241,7 @@ public class LoginPage extends javax.swing.JFrame {
                     uspage.setUsername(un);
                     uspage.show();
                     }else{
-                        JOptionPane.showMessageDialog(rootPane,"Login meomeo");
+                        JOptionPane.showMessageDialog(rootPane,"Login failed");
                         this.show();
                     }
                     } else{
