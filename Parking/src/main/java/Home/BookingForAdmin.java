@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author NGUYEN LIN
  */
-public class Booking extends javax.swing.JFrame {
+public class BookingForAdmin extends javax.swing.JFrame {
     private String username;
     
     public void setUsername(String username){
@@ -42,7 +42,7 @@ public class Booking extends javax.swing.JFrame {
     /**
      * Creates new form Booking
      */
-    public Booking() {
+    public BookingForAdmin() {
         initComponents();
         Connect();
         this.setLocationRelativeTo(null);
@@ -152,7 +152,7 @@ public class Booking extends javax.swing.JFrame {
         
         
     } catch (SQLException ex) {
-        Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(BookingForAdmin.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
 
@@ -256,7 +256,7 @@ public class Booking extends javax.swing.JFrame {
         jLabel6.setBackground(new java.awt.Color(13, 17, 22));
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Booking");
+        jLabel6.setText("Booking For Admin");
 
         jLabel9.setBackground(new java.awt.Color(13, 17, 22));
         jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -284,36 +284,35 @@ public class Booking extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel9))
+                                    .addComponent(jLabel1))
+                                .addGap(50, 50, 50)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtprice, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtddate, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel9))
-                            .addComponent(jLabel1))
-                        .addGap(50, 50, 50)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtprice, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtddate, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtveno)
-                        .addComponent(txtsno)
-                        .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtlotno, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                                .addComponent(txtveno)
+                                .addComponent(txtsno)
+                                .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtlotno, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2)))
+                    .addComponent(jLabel6))
                 .addGap(0, 89, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,14 +471,15 @@ public class Booking extends javax.swing.JFrame {
 //        if(rs.next()){
 //           this.hide();
 //           if(role ==1){
-//               HomePage home = new HomePage();
-//               home.setUsername(username);
-//               home.show();
-//           }else if(role==x){
                this.hide();
-               BookingForUser boo = new BookingForUser();
-                boo.setUsername(username);
-                boo.show();
+               HomePage home = new HomePage();
+               home.setUsername(username);
+               home.show();
+//           }else if(role==x){
+////               this.hide();
+//               BookingForUser boo = new BookingForUser();
+//                boo.setUsername(username);
+//                boo.show();
 //           } 
 //           else{
 //                JOptionPane.showMessageDialog(rootPane, "Error");
@@ -567,7 +567,7 @@ public class Booking extends javax.swing.JFrame {
             if(daysDifference >0){
                 long hours = daysDifference / (60 * 60 * 1000);
                 long days = hours / 24;
-                price = days * 20;
+                price = days * 10;
             }
             }catch(Exception e){
                 e.printStackTrace();
@@ -623,7 +623,7 @@ public class Booking extends javax.swing.JFrame {
             txtprice.setText("");
 ////            
         } catch (SQLException ex) {
-            Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookingForAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -663,20 +663,21 @@ public class Booking extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Booking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BookingForAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Booking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BookingForAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Booking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BookingForAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Booking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BookingForAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Booking().setVisible(true);
+                new BookingForAdmin().setVisible(true);
             }
         });
     }

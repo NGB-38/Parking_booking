@@ -33,7 +33,7 @@ public class SignUp extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -230,15 +230,16 @@ public class SignUp extends javax.swing.JFrame {
             {
                 this.hide();
                 HomePage home = new HomePage();
+                home.setUsername(username);
                 home.show();
             }
             
             else
             {
             this.hide();
-            BookingForUser home = new BookingForUser();
-            home.setUsername(username);
-            home.show();  
+            BookingForUser b2 = new BookingForUser();
+            b2.setUsername(username);
+            b2.show();  
             }
             }
             }catch(Exception e){
@@ -252,6 +253,7 @@ public class SignUp extends javax.swing.JFrame {
             
             this.hide();
             LoginPage log = new LoginPage();
+//            log.setUsername(username);
             log.show();
     }//GEN-LAST:event_jButton2ActionPerformed
 

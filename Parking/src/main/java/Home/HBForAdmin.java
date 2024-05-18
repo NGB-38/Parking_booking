@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author NGUYEN LIN
  */
-public class HistoryBooking extends javax.swing.JFrame {
+public class HBForAdmin extends javax.swing.JFrame {
     private String username;
     
     public void setUsername(String username){
@@ -40,7 +40,7 @@ public class HistoryBooking extends javax.swing.JFrame {
     /**
      * Creates new form Booking
      */
-    public HistoryBooking() {
+    public HBForAdmin() {
         initComponents();
         Connect();
         this.setLocationRelativeTo(null);
@@ -109,7 +109,7 @@ public class HistoryBooking extends javax.swing.JFrame {
                 d.addRow(v2);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
 
@@ -401,7 +401,7 @@ public class HistoryBooking extends javax.swing.JFrame {
                 
                 Load();
                 } catch (SQLException ex) {
-                    Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             }
@@ -409,7 +409,7 @@ public class HistoryBooking extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "This booking has been paid, can not cancel!");
             }
         } catch (ParseException ex) {
-            Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -468,7 +468,7 @@ public class HistoryBooking extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Paid");
             Load();          
         } catch (SQLException ex) {
-            Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
    } 
     
@@ -479,7 +479,7 @@ public class HistoryBooking extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.hide();
-        BookingForUser b1 = new BookingForUser();
+        HomePage b1 = new HomePage();
         b1.setUsername(getUsername());
         b1.show();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -503,21 +503,23 @@ public class HistoryBooking extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HistoryBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HBForAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HistoryBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HBForAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HistoryBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HBForAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HistoryBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HBForAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HistoryBooking().setVisible(true);
+                new HBForAdmin().setVisible(true);
             }
         });
     }

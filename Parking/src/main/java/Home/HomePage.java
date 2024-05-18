@@ -48,6 +48,7 @@ public class HomePage extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButtonPay = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -106,6 +107,18 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
 
+        jButtonPay.setBackground(new java.awt.Color(13, 17, 22));
+        jButtonPay.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jButtonPay.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonPay.setText("Payment");
+        jButtonPay.setBorderPainted(false);
+        jButtonPay.setFocusPainted(false);
+        jButtonPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPayActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -118,7 +131,8 @@ public class HomePage extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonPay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(58, 58, 58))
         );
         jPanel2Layout.setVerticalGroup(
@@ -126,9 +140,11 @@ public class HomePage extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(77, 77, 77)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jButtonPay, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,7 +201,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.hide();
-        Booking book = new Booking();
+        BookingForAdmin book = new BookingForAdmin();
         book.setUsername(getUsername());
         book.show();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -195,6 +211,17 @@ public class HomePage extends javax.swing.JFrame {
         LoginPage loginpanel = new LoginPage();
         loginpanel.show();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButtonPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPayActionPerformed
+        // TODO add your handling code here:
+        
+        
+         this.hide();
+       HBForAdmin hb = new HBForAdmin();
+       hb.setUsername(username);
+       hb.Load();
+       hb.show();
+    }//GEN-LAST:event_jButtonPayActionPerformed
     
     
     
@@ -248,6 +275,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonPay;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;

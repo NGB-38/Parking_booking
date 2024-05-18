@@ -35,7 +35,7 @@ public class LoginPage extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -236,6 +236,7 @@ public class LoginPage extends javax.swing.JFrame {
                 if(un.equals(usernameFromDB) && pass.equals(passwordFromDB)){
                     if(roleFromDB ==1){
                         HomePage home = new HomePage();
+                        home.setUsername(un);
                         home.show();
                     } else if (roleFromDB ==0){
                     BookingForUser uspage = new BookingForUser();
