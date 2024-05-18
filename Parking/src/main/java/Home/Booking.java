@@ -4,6 +4,8 @@
  */
 package Home;
 
+import Home.BookingForUser;
+import Home.HomePage;
 import static java.lang.String.format;
 import java.math.BigDecimal;
 import java.util.List;
@@ -49,6 +51,7 @@ public class Booking extends javax.swing.JFrame {
     PreparedStatement pst;
     PreparedStatement pst1;
     PreparedStatement pst2;
+    
     ResultSet rs;
     
     
@@ -57,7 +60,7 @@ public class Booking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -231,6 +234,8 @@ public class Booking extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Book");
         jButton1.setBorderPainted(false);
+        jButton1.setFocusPainted(false);
+        jButton1.setOpaque(true);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -239,6 +244,9 @@ public class Booking extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton2.setText("Cancel");
+        jButton2.setBorderPainted(false);
+        jButton2.setFocusPainted(false);
+        jButton2.setOpaque(true);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -300,9 +308,7 @@ public class Booking extends javax.swing.JFrame {
                         .addComponent(txtsno)
                         .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtlotno, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jButton2)))
+                    .addComponent(jButton2))
                 .addGap(0, 89, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(157, 157, 157)
@@ -455,31 +461,30 @@ public class Booking extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-//        int role =1;
-//        try{
-//            String sql = "SELECT * FROM customer WHERE role =?";
-//            pst = con.prepareCall(sql);           
-//            pst.setInt(1,role);           
-//            rs = pst.executeQuery();
-//      
-//        if(rs.next()){
-//           this.hide();
-//           if(role ==1){
-//               HomePage home = new HomePage();
-//               home.setUsername(username);
-//               home.show();
-//           }else{
+        int role =1;
+        try{
+            String sql = "SELECT * FROM customer WHERE role =?";
+            pst = con.prepareCall(sql);           
+            pst.setInt(1,role);           
+            rs = pst.executeQuery();
+      
+        if(rs.next()){
+           this.hide();
+           if(role ==1){
+               HomePage home = new HomePage();
+               home.setUsername(username);
+               home.show();
+           }else{
                this.hide();
                BookingForUser boo = new BookingForUser();
                 boo.setUsername(username);
                 boo.show();
-//           }      
-//        }
-//
-//        } catch (Exception e){
-//            JOptionPane.showMessageDialog(rootPane, "Error");
-//        }
+           }      
+        }
+
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Error");
+        }   
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked

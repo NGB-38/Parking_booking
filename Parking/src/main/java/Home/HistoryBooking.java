@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.*;
 import java.sql.Date;
 import static java.text.MessageFormat.format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,6 +49,8 @@ public class HistoryBooking extends javax.swing.JFrame {
     PreparedStatement pst;
     PreparedStatement pst1;
     PreparedStatement pst2;
+    PreparedStatement pst3;
+    PreparedStatement pst4;
     ResultSet rs;
     
     
@@ -56,7 +59,7 @@ public class HistoryBooking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -76,18 +79,12 @@ public class HistoryBooking extends javax.swing.JFrame {
   
         try {
             pst = con.prepareStatement
-                ("SELECT parkbook.parkno, parkbook.seat, parkbook.carnum, parkbook.mobile, parkbook.date, parkbook.due_date, " +
-                    "parkbook.price, ? AS username, reservation.status " +
-                    "FROM parkbook " +
-                    "LEFT JOIN reservation ON parkbook.parkno = reservation.parkno " +
-                    "AND parkbook.seat = reservation.seat " +
-                    "AND parkbook.date = reservation.date " +
-                    "AND parkbook.due_date = reservation.due_date " +
-                    "AND parkbook.carnum = reservation.carnum " +
-                    "AND parkbook.mobile = reservation.mobile " +
-                        "WHERE parkbook.username = ?;");
+                ("select r.slot_id, p.lot_id, r.username, r.vehicle_num, c.mobile, r.date, r.due_date, r.price, r.pay_status " +
+                    "from reservation r join parking_slot p on r.slot_id = p.slot_id and r.date = p.date " +
+                    "join customer c on c.USER_NAME = r.username " +
+                    "where r.username = ?");
                pst.setString(1, username);
-               pst.setString(2,username);
+
 
             rs = pst.executeQuery();           
             
@@ -100,15 +97,15 @@ public class HistoryBooking extends javax.swing.JFrame {
             {
                 Vector v2 = new Vector();
                 
-                v2.add(rs.getString("parkno"));
-                v2.add(rs.getString("seat"));
+                v2.add(rs.getString("slot_id"));
+                v2.add(rs.getString("lot_id"));
                 v2.add(rs.getString("username"));
-                v2.add(rs.getString("carnum"));
+                v2.add(rs.getString("vehicle_num"));
                 v2.add(rs.getString("mobile"));
                 v2.add(rs.getString("date"));
                 v2.add(rs.getString("due_date"));
                 v2.add(rs.getBigDecimal("price"));
-                v2.add(rs.getString("status"));
+                v2.add(rs.getString("pay_status"));
                 d.addRow(v2);
             }
         } catch (SQLException ex) {
@@ -149,6 +146,7 @@ public class HistoryBooking extends javax.swing.JFrame {
         txtddate = new javax.swing.JTextField();
         txtprice = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableHis = new javax.swing.JTable();
@@ -182,6 +180,8 @@ public class HistoryBooking extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Pay");
         jButton1.setBorderPainted(false);
+        jButton1.setFocusPainted(false);
+        jButton1.setOpaque(true);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -189,6 +189,9 @@ public class HistoryBooking extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cancel");
+        jButton2.setBorderPainted(false);
+        jButton2.setFocusPainted(false);
+        jButton2.setOpaque(true);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -208,6 +211,13 @@ public class HistoryBooking extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Total Price");
+
+        jButton3.setText("Return");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -238,15 +248,22 @@ public class HistoryBooking extends javax.swing.JFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
+                        .addGap(17, 17, 17)
+                        .addComponent(jButton3)
+                        .addGap(68, 68, 68)
                         .addComponent(jLabel6)))
                 .addGap(0, 75, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jButton3)))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -297,11 +314,11 @@ public class HistoryBooking extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "parkno", "slot_no", "username", "carnum", "mobile", "date", "due_date", "price", "status"
+                "slot_id", "lot_id", "username", "vehicle_num", "mobile", "date", "due_date", "price", "status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -333,9 +350,12 @@ public class HistoryBooking extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -344,23 +364,63 @@ public class HistoryBooking extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        try {
+            DefaultTableModel d1 = (DefaultTableModel)jTableHis.getModel();
+            int selected = jTableHis.getSelectedRow();
+            
+            String slot = d1.getValueAt(selected, 0).toString();
+            String date = d1.getValueAt(selected, 5).toString();
+            String ddate = d1.getValueAt(selected,6).toString();
+            String status = d1.getValueAt(selected, 8).toString();
+            
         
-        this.hide();
-        BookingForUser b1 = new BookingForUser();
-        b1.show();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            
+            
+            java.util.Date fromDate = format.parse(date);
+            java.util.Date dueDate = format.parse(ddate);
+            if (!status.equals("Paid")){
+            
+            int res = JOptionPane.showConfirmDialog(null,"Would you like to cancel?", "Warning", JOptionPane.YES_NO_OPTION);
+            if (res == JOptionPane.YES_OPTION){
+                try {
+                pst3 = con.prepareCall("update parking_slot set status = 'Available' where date between ? and ? and slot_id = ?");
+                pst3.setDate(1, new java.sql.Date(fromDate.getTime()));
+                pst3.setDate(2, new java.sql.Date(dueDate.getTime()));
+                pst3.setString(3, slot);
+                
+                pst3.executeUpdate();
+                
+                pst4 = con.prepareCall("delete from reservation where slot_id = ? and date between ? and ? and username = ? ");
+                pst4.setString(1, slot);
+                pst4.setDate(2, new java.sql.Date(fromDate.getTime()));
+                pst4.setDate(3,new java.sql.Date(dueDate.getTime()));
+                pst4.setString(4, username);
+                
+                pst4.executeUpdate();
+                
+                Load();
+                } catch (SQLException ex) {
+                    Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            }
+            else {
+                JOptionPane.showMessageDialog(rootPane, "This booking has been paid, can not cancel!");
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTableHisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHisMouseClicked
         // TODO add your handling code here:
         DefaultTableModel d1 = (DefaultTableModel)jTableHis.getModel();
         int selected = jTableHis.getSelectedRow();
-//        
-        String status = d1.getValueAt(selected, 8).toString();
-//        
-        if(!status.equals("Paid"))
-        {
-            String seat = d1.getValueAt(selected, 1).toString();
+
+            String seat = d1.getValueAt(selected, 0).toString();
             String carnum = d1.getValueAt(selected, 3).toString();
             String mobile = d1.getValueAt(selected, 4).toString();
             String date = d1.getValueAt(selected, 5).toString();
@@ -372,17 +432,7 @@ public class HistoryBooking extends javax.swing.JFrame {
             txtsno.setText(seat);
             txtdate.setText(date);
             txtddate.setText(ddate);
-            txtprice.setText(price);
-            
-//        this.hide();
-//        PaymentDetail p1 = new PaymentDetail();
-//        p1.show();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(this, "Paidd!!");
-        }
-        
+            txtprice.setText(price); 
     }//GEN-LAST:event_jTableHisMouseClicked
   
    public void Pay(){
@@ -391,18 +441,16 @@ public class HistoryBooking extends javax.swing.JFrame {
             
             DefaultTableModel d1 = (DefaultTableModel)jTableHis.getModel();
             int selected = jTableHis.getSelectedRow();
-            
-            String parkno = d1.getValueAt(selected, 0).toString();
+           
             String status = d1.getValueAt(selected, 8).toString() ;
             String carnum = txtveno.getText();
             String seat = txtsno.getText();
-            String mobile = txtmno.getText();
             String date = txtdate.getText();
             String ddate = txtddate.getText();
             
-//               if(!status.equals("Paid"))
-//        {
-            String sql = "UPDATE reservation SET status = 'Paid' WHERE username = ? AND seat = ? AND date = ? AND due_date = ? AND carnum = ?";
+               if(!status.equals("Paid"))
+        {
+            String sql = "UPDATE reservation SET pay_status = 'Paid' WHERE username = ? AND slot_id = ? AND date = ? AND due_date = ? AND vehicle_num = ?";
             pst2 = con.prepareStatement(sql);
 
             // Set the values for the parameters
@@ -413,17 +461,10 @@ public class HistoryBooking extends javax.swing.JFrame {
             pst2.setString(5, carnum);
             
             pst2.executeUpdate();
-//            if (r3.isSelected()==true){
-//                this.hide();
-//                CardDetails m1 = new CardDetails();
-//                m1.show();
-//                
-//            }
+
             JOptionPane.showMessageDialog(rootPane, "Payment successfull");
-//            JOptionPane.showMessageDialog(rootPane, "Payment successfull");
-//             Load(); 
-    
-//        }
+            Load();
+        }
             JOptionPane.showMessageDialog(this, "Paid");
             Load();          
         } catch (SQLException ex) {
@@ -433,61 +474,14 @@ public class HistoryBooking extends javax.swing.JFrame {
     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here: 
-//        if (r3.isSelected()==true){
-////                this.hide();
-//                CardDetails m1 = new CardDetails();
-//                m1.setVisible(true);
-////                m1.show();
-////             
-//            }
-        Pay();
-        
-//        try {
-//            // TODO add your handling code here:
-//            
-//            DefaultTableModel d1 = (DefaultTableModel)jTableHis.getModel();
-//            int selected = jTableHis.getSelectedRow();
-//            
-//            String parkno = d1.getValueAt(selected, 0).toString();
-//            String status = d1.getValueAt(selected, 8).toString() ;
-//            String carnum = txtveno.getText();
-//            String seat = txtsno.getText();
-//            String mobile = txtmno.getText();
-//            String date = txtdate.getText();
-//            String ddate = txtddate.getText();
-//            
-//               if(!status.equals("Paid"))
-//        {
-//            String sql = "UPDATE reservation SET status = 'Paid' WHERE username = ? AND seat = ? AND date = ? AND due_date = ? AND carnum = ?";
-//            pst2 = con.prepareStatement(sql);
-//
-//            // Set the values for the parameters
-//            pst2.setString(1, username);
-//            pst2.setString(2, seat);
-//            pst2.setString(3, date);
-//            pst2.setString(4, ddate);
-//            pst2.setString(5, carnum);
-//            
-//            pst2.executeUpdate();
-////            if (r3.isSelected()==true){
-////                this.hide();
-////                CardDetails m1 = new CardDetails();
-////                m1.show();
-////                
-////            }
-//            JOptionPane.showMessageDialog(rootPane, "Payment successfull");
-////            JOptionPane.showMessageDialog(rootPane, "Payment successfull");
-//
-//    
-//        }
-//            JOptionPane.showMessageDialog(this, "Paid");
-//            Load();          
-//        } catch (SQLException ex) {
-//            Logger.getLogger(HistoryBooking.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-       
+         Pay();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.hide();
+        BookingForUser b1 = new BookingForUser();
+        b1.show();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     
 
@@ -530,6 +524,7 @@ public class HistoryBooking extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
