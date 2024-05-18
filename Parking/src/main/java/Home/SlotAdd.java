@@ -15,12 +15,12 @@ import javax.swing.JOptionPane;
  *
  * @author ACER
  */
-public class SeatAdd extends javax.swing.JFrame {
+public class SlotAdd extends javax.swing.JFrame {
 
     /**
      * Creates new form SeatAdd
      */
-    public SeatAdd() {
+    public SlotAdd() {
         initComponents();
         Connect();
         this.setLocationRelativeTo(null);
@@ -330,15 +330,15 @@ public class SeatAdd extends javax.swing.JFrame {
                     // Roll back the transaction in case of any error
                     con.rollback();
                 } catch (SQLException ex1) {
-                    Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex1);
+                    Logger.getLogger(SlotAdd.class.getName()).log(Level.SEVERE, null, ex1);
                 }
-                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SlotAdd.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     // Reset the auto-commit mode
                     con.setAutoCommit(true);
                 } catch (SQLException ex) {
-                    Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SlotAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -380,15 +380,15 @@ public class SeatAdd extends javax.swing.JFrame {
                     // Roll back the transaction in case of any error
                     con.rollback();
                 } catch (SQLException ex1) {
-                    Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex1);
+                    Logger.getLogger(SlotAdd.class.getName()).log(Level.SEVERE, null, ex1);
                 }
-                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SlotAdd.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     // Reset the auto-commit mode
                     con.setAutoCommit(true);
                 } catch (SQLException ex) {
-                    Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SlotAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -422,20 +422,21 @@ public class SeatAdd extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SeatAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SlotAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SeatAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SlotAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SeatAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SlotAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SeatAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SlotAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SeatAdd().setVisible(true);
+                new SlotAdd().setVisible(true);
             }
         });
     }

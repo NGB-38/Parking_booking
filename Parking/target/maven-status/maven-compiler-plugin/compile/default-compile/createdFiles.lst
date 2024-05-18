@@ -1,8 +1,9 @@
+Home\SlotAdd$3.class
 Home\BookingForAdmin$7.class
 Home\Payment$5.class
+Home\SlotAdd.class
 Home\BookingForUser$3.class
 Home\HBForAdmin$6.class
-Home\SeatAdd$2.class
 Home\BookingForAdmin$10.class
 Home\Booking$10.class
 Home\CardDetails$2.class
@@ -16,7 +17,6 @@ Home\BookingForAdmin$3.class
 Home\Booking$2.class
 Home\HomePage$2.class
 Home\RuleForBooking$2.class
-Home\SeatAdd$1.class
 Home\HBForAdmin$2.class
 login\SignUp$1.class
 Home\Payment$1.class
@@ -27,7 +27,6 @@ Home\BookingForUser$4.class
 Home\BookingForAdmin$1.class
 Home\Booking$1.class
 Home\HBForAdmin$5.class
-Home\SeatAdd$4.class
 Home\Booking$8.class
 Home\Payment.class
 login\SignUp.class
@@ -47,8 +46,9 @@ Home\BookingForAdmin$2.class
 Home\BookingForUser$1.class
 Home\BookingForAdmin$9.class
 login\SignUp$2.class
+Home\SlotAdd$5.class
+Home\SlotAdd$1.class
 login\Login$1.class
-Home\SeatAdd.class
 Home\Booking$7.class
 Home\BookingForAdmin$5.class
 Home\HBForAdmin$4.class
@@ -57,13 +57,14 @@ Home\CardDetails.class
 Home\HistoryBooking$5.class
 Home\BookingForAdmin.class
 Home\HomePage.class
-Home\SeatAdd$3.class
 Home\Payment$4.class
 login\Login.class
 Home\BookingForUser.class
 Home\BookingForAdmin$8.class
 Home\CardDetails$3.class
 Home\HistoryBooking$3.class
+Home\SlotAdd$4.class
+Home\SlotAdd$2.class
 Home\BookingForAdmin$6.class
 Home\HomePage$4.class
 Home\HistoryBooking$6.class
