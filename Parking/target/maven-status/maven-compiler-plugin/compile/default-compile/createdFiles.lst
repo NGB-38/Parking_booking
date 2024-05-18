@@ -7,9 +7,9 @@ Home\Booking$9.class
 Home\Payment$2.class
 login\SignUp$4.class
 login\LoginPage.class
-Home\BookingMain.class
 Home\Booking$2.class
 Home\HomePage$2.class
+Home\RuleForBooking$2.class
 Home\SeatAdd$1.class
 login\SignUp$1.class
 Home\Payment$1.class
@@ -23,9 +23,10 @@ Home\Booking$8.class
 Home\Payment.class
 login\SignUp.class
 Home\Booking.class
+Home\RuleForBooking$1.class
 Home\HistoryBooking$4.class
 login\SignUp$5.class
-Home\BookingMain$1.class
+Home\RuleForBooking.class
 Home\HomePage$3.class
 Home\HistoryBooking$2.class
 Home\Booking$4.class
@@ -36,7 +37,6 @@ login\Login$1.class
 Home\SeatAdd.class
 Home\Booking$7.class
 login\LoginPage$1.class
-Home\BookingMain$2.class
 Home\CardDetails.class
 Home\HistoryBooking$5.class
 Home\HomePage.class
@@ -47,7 +47,7 @@ Home\BookingForUser.class
 Home\CardDetails$3.class
 Home\HistoryBooking$3.class
 Home\HomePage$4.class
-Home\BookingMain$3.class
+Home\BookingForUser$5.class
 login\LoginPage$2.class
 Home\Payment$3.class
 login\SignUp$3.class
