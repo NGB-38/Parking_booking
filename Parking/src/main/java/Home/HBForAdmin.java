@@ -28,7 +28,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class HBForAdmin extends javax.swing.JFrame {
     private String username;
-    
     public void setUsername(String username){
         this.username = username;
     }
@@ -59,7 +58,7 @@ public class HBForAdmin extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -78,47 +77,10 @@ public class HBForAdmin extends javax.swing.JFrame {
     public void Load() {
   
         try {
-//            pst = con.prepareStatement
-//                ("select r.slot_id, p.lot_id, r.username, r.vehicle_num, c.mobile, r.date, r.due_date, r.price, r.pay_status " +
-//                    "from reservation r join parking_slot p on r.slot_id = p.slot_id and r.date = p.date " +
-//                    "join customer c on c.USER_NAME = r.username " +
-//                    "where r.username = ?");
-//               pst.setString(1, username);
-//
-//
-//            rs = pst.executeQuery();           
-//            
-//            
-//            
-//            DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
-//            d.setRowCount(0);
-//            
-//            while (rs.next())
-//            {
-//                Vector v2 = new Vector();
-//                
-//                v2.add(rs.getString("slot_id"));
-//                v2.add(rs.getString("lot_id"));
-//                v2.add(rs.getString("username"));
-//                v2.add(rs.getString("vehicle_num"));
-//                v2.add(rs.getString("mobile"));
-//                v2.add(rs.getString("date"));
-//                v2.add(rs.getString("due_date"));
-//                v2.add(rs.getBigDecimal("price"));
-//                v2.add(rs.getString("pay_status"));
-//                d.addRow(v2);
-//            }
-
-String username = txtusername.getText(); // Assuming you have a text field for the username
-
 pst = con.prepareStatement("SELECT r.vehicle_num, r.slot_id, p.lot_id, r.date, r.due_date, r.price, r.pay_status, r.username, c.mobile "
                         + "FROM reservation r "
                         + "JOIN parking_slot p ON r.slot_id = p.slot_id AND r.date = p.date "
-                        + "join customer c on c.USER_NAME = r.username " 
-                        + "WHERE r.username = ?");
-
-pst.setString(1, username);
-
+                        + "join customer c on c.USER_NAME = r.username ");
 rs = pst.executeQuery();
 
 DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
@@ -128,7 +90,7 @@ while (rs.next()) {
     Vector v2 = new Vector();
     v2.add(rs.getString("slot_id"));
     v2.add(rs.getString("lot_id"));
-     v2.add(username);
+    v2.add(rs.getString("username"));
     v2.add(rs.getString("vehicle_num"));
                 v2.add(rs.getString("mobile"));
                 v2.add(rs.getString("date"));
@@ -141,15 +103,6 @@ while (rs.next()) {
             Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
-
-
-
-
-
-
-     
-     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -424,9 +377,9 @@ while (rs.next()) {
             int selected = jTableHis.getSelectedRow();
             
             String slot = d1.getValueAt(selected, 0).toString();
+            String username1 = d1.getValueAt(selected, 2).toString();
             String date = d1.getValueAt(selected, 5).toString();
             String ddate = d1.getValueAt(selected,6).toString();
-            String status = d1.getValueAt(selected, 8).toString();
             
         
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -434,7 +387,6 @@ while (rs.next()) {
             
             java.util.Date fromDate = format.parse(date);
             java.util.Date dueDate = format.parse(ddate);
-            if (!status.equals("Paid")){
             
             int res = JOptionPane.showConfirmDialog(null,"Would you like to cancel?", "Warning", JOptionPane.YES_NO_OPTION);
             if (res == JOptionPane.YES_OPTION){
@@ -450,7 +402,7 @@ while (rs.next()) {
                 pst4.setString(1, slot);
                 pst4.setDate(2, new java.sql.Date(fromDate.getTime()));
                 pst4.setDate(3,new java.sql.Date(dueDate.getTime()));
-                pst4.setString(4, username);
+                pst4.setString(4, username1);
                 
                 pst4.executeUpdate();
                 
@@ -459,17 +411,46 @@ while (rs.next()) {
                     Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            }
-            else {
-                JOptionPane.showMessageDialog(rootPane, "This booking has been paid, can not cancel!");
-            }
-        } catch (ParseException ex) {
-            Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Error");
         }
-        
-        
+            
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public void filterByUsername(){
+        try {
+        String username1 = txtusername.getText(); // Assuming you have a text field for the username
+
+        pst = con.prepareStatement("SELECT r.vehicle_num, r.slot_id, p.lot_id, r.date, r.due_date, r.price, r.pay_status, r.username, c.mobile "
+                                + "FROM reservation r "
+                                + "JOIN parking_slot p ON r.slot_id = p.slot_id AND r.date = p.date "
+                                + "join customer c on c.USER_NAME = r.username " 
+                                + "WHERE r.username = ?");
+
+        pst.setString(1, username);
+
+        rs = pst.executeQuery();
+
+        DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
+        d.setRowCount(0);
+
+        while (rs.next()) {
+            Vector v2 = new Vector();
+            v2.add(rs.getString("slot_id"));
+            v2.add(rs.getString("lot_id"));
+            v2.add(username1);
+            v2.add(rs.getString("vehicle_num"));
+                        v2.add(rs.getString("mobile"));
+                        v2.add(rs.getString("date"));
+                        v2.add(rs.getString("due_date"));
+                        v2.add(rs.getBigDecimal("price"));
+                        v2.add(rs.getString("pay_status"));
+                        d.addRow(v2);
+        }
+                } catch (SQLException ex) {
+                    Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
     private void jTableHisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHisMouseClicked
         // TODO add your handling code here:
         DefaultTableModel d1 = (DefaultTableModel)jTableHis.getModel();
@@ -540,9 +521,7 @@ while (rs.next()) {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        
-       Load();
+        filterByUsername();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     

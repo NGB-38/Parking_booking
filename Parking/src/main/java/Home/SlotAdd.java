@@ -39,7 +39,7 @@ public class SlotAdd extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -105,6 +105,7 @@ public class SlotAdd extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Add");
         jButton2.setBorderPainted(false);
+        jButton2.setOpaque(true);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -231,53 +232,7 @@ public class SlotAdd extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        
-        
-        //if create by month error then create by slot by slot first
-        
-//         String parkid = txtpark.getSelectedItem().toString();
-////        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
-//        java.util.Date date = txtdate.getDate();
-//        
-//        
-//       for(int i=1; i<=20; i++)
-//       {
-//           int slot_id = i;
-//           
-//            try {
-//                pst = con.prepareStatement ("insert into parking_slot(slot_id, date, lot_id)values(?,?,?)");
-////                pst.setString(1,parkid);
-//                pst.setInt(1,slot_id);
-//                pst.setDate(2,new java.sql.Date(date.getTime()));
-//                pst.setString(3,parkid);
-//                pst.executeUpdate();
-//                            
-//                //insert thẳng vào parking_slot 
-//                
-//                
-//            } catch (SQLException ex) {
-//                Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//       }
-//       
-//        try {
-//            pst1 = con.prepareStatement("insert into parking_lot(lot_id)values(?)");
-//            pst1.setString(1,parkid);
-//            pst1.executeUpdate();
-//   
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SeatAdd.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//
-//       
-//       
-//       JOptionPane.showMessageDialog(this,"Seat Added");
-        
-                            //use the code above
-
-
+     
         
 
             String parkid = txtpark.getSelectedItem().toString();
@@ -287,7 +242,7 @@ public class SlotAdd extends javax.swing.JFrame {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(selectedDate);
 
-            // Iterate through the days of the month
+            try{
             for (int day = 1; day <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); day++) {
                     calendar.set(Calendar.DAY_OF_MONTH, day);
                 java.sql.Date currentDate = new java.sql.Date(calendar.getTimeInMillis());
@@ -325,6 +280,7 @@ public class SlotAdd extends javax.swing.JFrame {
 
                 // Commit the transaction
                 con.commit();
+                
             } catch (SQLException ex) {
                 try {
                     // Roll back the transaction in case of any error
@@ -393,7 +349,11 @@ public class SlotAdd extends javax.swing.JFrame {
             }
         }
     }
-}           
+    } 
+            JOptionPane.showMessageDialog(rootPane, "Slot added");
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(rootPane, "Error");
+            }           
        
     }//GEN-LAST:event_jButton2ActionPerformed
 

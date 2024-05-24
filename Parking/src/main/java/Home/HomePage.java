@@ -213,13 +213,10 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPayActionPerformed
-        // TODO add your handling code here:
-        
-        
-         this.hide();
+       this.hide();
        HBForAdmin hb = new HBForAdmin();
        hb.setUsername(username);
-//       hb.Load();
+       hb.Load();
        hb.show();
     }//GEN-LAST:event_jButtonPayActionPerformed
     

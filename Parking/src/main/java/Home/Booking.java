@@ -6,6 +6,7 @@ package Home;
 
 import Home.BookingForUser;
 import Home.HomePage;
+import java.util.Random;
 import static java.lang.String.format;
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,6 +39,7 @@ public class Booking extends javax.swing.JFrame {
     public String getUsername(){
         return username;
     }
+    Random random = new Random();
 
     /**
      * Creates new form Booking
@@ -60,7 +62,7 @@ public class Booking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345";
+        String password="12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -575,9 +577,17 @@ public class Booking extends javax.swing.JFrame {
             String date = txtdate.getText();
             String ddate = txtddate.getText();
             String price = txtprice.getText();
+            
+            
           
-            // Generate a random 6-digit PIN
-            String pin = String.format("%06d", (int)(Math.random() * 1000000));
+            // Generate the first digit (1-9)
+            int firstDigit = random.nextInt(9) + 1;
+
+            // Generate the remaining 5 digits (00000-99999)
+            int remainingDigits = random.nextInt(100000);
+
+            // Combine the two parts
+            String pin = String.format("%d%05d", firstDigit, remainingDigits);
     
             pst = con.prepareStatement("insert into reservation(slot_id, vehicle_num, date, username, price, due_date, pin)values(?,?,?,?,?,?,?)");
             pst.setString(1, slot_id);
