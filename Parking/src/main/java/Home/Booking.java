@@ -591,8 +591,10 @@ public class Booking extends javax.swing.JFrame {
             String ddate = txtddate.getText();
             String price = txtprice.getText();
           
-            
-            pst = con.prepareStatement("insert into reservation(slot_id, vehicle_num, date, username, price, due_date)values(?,?,?,?,?,?)");
+            // Generate a random 6-digit PIN
+            String pin = String.format("%06d", (int)(Math.random() * 1000000));
+    
+            pst = con.prepareStatement("insert into reservation(slot_id, vehicle_num, date, username, price, due_date, pin)values(?,?,?,?,?,?,?)");
             pst.setString(1, slot_id);
             
             pst.setString(2, carnum);
@@ -600,6 +602,8 @@ public class Booking extends javax.swing.JFrame {
             pst.setString(4, getUsername());
             pst.setString(5, price);
             pst.setString(6,ddate);
+            pst.setString(7, pin);
+
             pst.executeUpdate();
 //            
             pst1 = con.prepareStatement("update parking_slot set status = 'Booked' where slot_id = ? and lot_id = ? and date BETWEEN ? AND ?" );

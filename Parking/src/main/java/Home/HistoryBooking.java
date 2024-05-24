@@ -79,7 +79,7 @@ public class HistoryBooking extends javax.swing.JFrame {
   
         try {
             pst = con.prepareStatement
-                ("select r.slot_id, p.lot_id, r.username, r.vehicle_num, c.mobile, r.date, r.due_date, r.price, r.pay_status " +
+                ("select r.slot_id, p.lot_id, r.username, r.vehicle_num, c.mobile, r.date, r.due_date, r.price, r.pay_status, r.pin " +
                     "from reservation r join parking_slot p on r.slot_id = p.slot_id and r.date = p.date " +
                     "join customer c on c.USER_NAME = r.username " +
                     "where r.username = ?");
@@ -106,6 +106,7 @@ public class HistoryBooking extends javax.swing.JFrame {
                 v2.add(rs.getString("due_date"));
                 v2.add(rs.getBigDecimal("price"));
                 v2.add(rs.getString("pay_status"));
+                v2.add(rs.getString("pin"));
                 d.addRow(v2);
             }
         } catch (SQLException ex) {
@@ -308,17 +309,17 @@ public class HistoryBooking extends javax.swing.JFrame {
 
         jTableHis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "slot_id", "lot_id", "username", "vehicle_num", "mobile", "date", "due_date", "price", "status"
+                "slot_id", "lot_id", "username", "vehicle_num", "mobile", "date", "due_date", "price", "status", "pin"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
