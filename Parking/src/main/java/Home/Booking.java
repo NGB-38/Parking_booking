@@ -79,14 +79,6 @@ public class Booking extends javax.swing.JFrame {
     public void Load() {
     try {
 
-//pst = con.prepareStatement("SELECT seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile, ? AS date, ? AS due_date "
-//                + "FROM seat LEFT JOIN parkbook ON seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND seat.date = parkbook.date "
-//                + "WHERE seat.date BETWEEN ? AND ? AND seat.status = 'Available' "
-//                + "AND NOT EXISTS (SELECT 1 FROM parkbook "
-//                + "WHERE seat.parkno = parkbook.parkno AND seat.seats = parkbook.seat AND parkbook.date BETWEEN ? AND ?) "
-//                + "GROUP BY seat.parkno, seat.seats, seat.status, parkbook.carnum, parkbook.mobile;");
-
-
 //seat là parking_slot (chỉ có date thui) còn reservation nó là parkbook ( có cả date và due_ date)
 
            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -102,13 +94,6 @@ public class Booking extends javax.swing.JFrame {
 //                    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
 //                    + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
 
-
-//            pst.setDate(1, new java.sql.Date(fromDate.getTime()));
-//            pst.setDate(2, new java.sql.Date(dueDate.getTime()));
-//            pst.setDate(3, new java.sql.Date(fromDate.getTime()));
-//            pst.setDate(4, new java.sql.Date(dueDate.getTime()));
-//            pst.setDate(5, new java.sql.Date(fromDate.getTime()));
-//            pst.setDate(6, new java.sql.Date(dueDate.getTime()));
             pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
         + "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
         + "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "

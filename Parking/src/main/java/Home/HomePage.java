@@ -219,7 +219,7 @@ public class HomePage extends javax.swing.JFrame {
          this.hide();
        HBForAdmin hb = new HBForAdmin();
        hb.setUsername(username);
-       hb.Load();
+//       hb.Load();
        hb.show();
     }//GEN-LAST:event_jButtonPayActionPerformed
     

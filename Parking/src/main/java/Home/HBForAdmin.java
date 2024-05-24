@@ -78,36 +78,65 @@ public class HBForAdmin extends javax.swing.JFrame {
     public void Load() {
   
         try {
-            pst = con.prepareStatement
-                ("select r.slot_id, p.lot_id, r.username, r.vehicle_num, c.mobile, r.date, r.due_date, r.price, r.pay_status " +
-                    "from reservation r join parking_slot p on r.slot_id = p.slot_id and r.date = p.date " +
-                    "join customer c on c.USER_NAME = r.username " +
-                    "where r.username = ?");
-               pst.setString(1, username);
+//            pst = con.prepareStatement
+//                ("select r.slot_id, p.lot_id, r.username, r.vehicle_num, c.mobile, r.date, r.due_date, r.price, r.pay_status " +
+//                    "from reservation r join parking_slot p on r.slot_id = p.slot_id and r.date = p.date " +
+//                    "join customer c on c.USER_NAME = r.username " +
+//                    "where r.username = ?");
+//               pst.setString(1, username);
+//
+//
+//            rs = pst.executeQuery();           
+//            
+//            
+//            
+//            DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
+//            d.setRowCount(0);
+//            
+//            while (rs.next())
+//            {
+//                Vector v2 = new Vector();
+//                
+//                v2.add(rs.getString("slot_id"));
+//                v2.add(rs.getString("lot_id"));
+//                v2.add(rs.getString("username"));
+//                v2.add(rs.getString("vehicle_num"));
+//                v2.add(rs.getString("mobile"));
+//                v2.add(rs.getString("date"));
+//                v2.add(rs.getString("due_date"));
+//                v2.add(rs.getBigDecimal("price"));
+//                v2.add(rs.getString("pay_status"));
+//                d.addRow(v2);
+//            }
 
+String username = txtusername.getText(); // Assuming you have a text field for the username
 
-            rs = pst.executeQuery();           
-            
-            
-            
-            DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
-            d.setRowCount(0);
-            
-            while (rs.next())
-            {
-                Vector v2 = new Vector();
-                
-                v2.add(rs.getString("slot_id"));
-                v2.add(rs.getString("lot_id"));
-                v2.add(rs.getString("username"));
-                v2.add(rs.getString("vehicle_num"));
+pst = con.prepareStatement("SELECT r.vehicle_num, r.slot_id, p.lot_id, r.date, r.due_date, r.price, r.pay_status, r.username, c.mobile "
+                        + "FROM reservation r "
+                        + "JOIN parking_slot p ON r.slot_id = p.slot_id AND r.date = p.date "
+                        + "join customer c on c.USER_NAME = r.username " 
+                        + "WHERE r.username = ?");
+
+pst.setString(1, username);
+
+rs = pst.executeQuery();
+
+DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
+d.setRowCount(0);
+
+while (rs.next()) {
+    Vector v2 = new Vector();
+    v2.add(rs.getString("slot_id"));
+    v2.add(rs.getString("lot_id"));
+     v2.add(username);
+    v2.add(rs.getString("vehicle_num"));
                 v2.add(rs.getString("mobile"));
                 v2.add(rs.getString("date"));
                 v2.add(rs.getString("due_date"));
                 v2.add(rs.getBigDecimal("price"));
                 v2.add(rs.getString("pay_status"));
                 d.addRow(v2);
-            }
+}
         } catch (SQLException ex) {
             Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -150,6 +179,9 @@ public class HBForAdmin extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableHis = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        txtusername = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -333,14 +365,32 @@ public class HBForAdmin extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableHis);
 
+        jButton4.setText("show");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("username");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72)
+                        .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(106, 106, 106)
+                        .addComponent(jButton4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -354,6 +404,11 @@ public class HBForAdmin extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(jLabel7)
+                            .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46)))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -484,6 +539,12 @@ public class HBForAdmin extends javax.swing.JFrame {
         b1.show();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        
+       Load();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     
 
     /**
@@ -528,12 +589,14 @@ public class HBForAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -544,6 +607,7 @@ public class HBForAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField txtmno;
     private javax.swing.JTextField txtprice;
     private javax.swing.JTextField txtsno;
+    private javax.swing.JTextField txtusername;
     private javax.swing.JTextField txtveno;
     // End of variables declaration//GEN-END:variables
 }
