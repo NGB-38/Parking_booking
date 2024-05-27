@@ -85,8 +85,8 @@ public class Booking extends javax.swing.JFrame {
 
 //           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 //
-            java.util.Date fromDate = txtdchooser.getDate();
-            java.util.Date dueDate = txtddchooser.getDate();
+//            java.util.Date fromDate = txtdchooser.getDate();
+//            java.util.Date dueDate = txtddchooser.getDate();
 //
 //pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
 //+ "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
@@ -110,7 +110,8 @@ public class Booking extends javax.swing.JFrame {
 //        pst.setDate(8, new java.sql.Date(dueDate.getTime()));
 
 
-
+ java.util.Date fromDate = txtdchooser.getDate();
+ java.util.Date dueDate = txtddchooser.getDate();
 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 // Convert java.util.Date objects to java.sql.Date
@@ -126,14 +127,28 @@ java.sql.Date dueDateSQL = new java.sql.Date(dueDate.getTime());
 //    + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
 
 
+//pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
+//    + "FROM parking_slot "
+//    + "LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
+//    + "WHERE parking_slot.date >= ? AND parking_slot.date <= ? AND parking_slot.status = 'Available' "
+//    + "AND NOT EXISTS (SELECT 1 FROM reservation "
+//    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date = parking_slot.date) "
+//    + "AND ? <> ? "
+//    + "GROUP BY parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+
 pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
     + "FROM parking_slot "
     + "LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
     + "WHERE parking_slot.date >= ? AND parking_slot.date <= ? AND parking_slot.status = 'Available' "
     + "AND NOT EXISTS (SELECT 1 FROM reservation "
-    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date = parking_slot.date) "
-    + "AND ? <> ? "
+    + "WHERE reservation.slot_id = parking_slot.slot_id "
+    + "AND ((reservation.date >= ? AND reservation.date <= ?) "
+    + "OR (reservation.date <= ? AND ? <= parking_slot.date))) "
+    + "AND (? <> ?) "
     + "GROUP BY parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+
+
+
 
 
 
@@ -144,16 +159,17 @@ pst.setDate(3, fromDateSQL);
 pst.setDate(4, dueDateSQL);
 pst.setDate(5, fromDateSQL);
 pst.setDate(6, dueDateSQL);
-//pst.setDate(7, fromDateSQL);
-//pst.setDate(8, dueDateSQL);
-//pst.setDate(9, fromDateSQL);
-//pst.setDate(10, dueDateSQL);
+pst.setDate(7, fromDateSQL);
+pst.setDate(8, dueDateSQL);
+pst.setDate(9, fromDateSQL);
+pst.setDate(10, dueDateSQL);
 
 
 
 
         if (fromDate.equals(dueDate)) {
     // Display an error message or handle the case where fromDate and dueDate are the same
+
             JOptionPane.showMessageDialog(rootPane, "From date and due date cannot be the same.");
             return;
         }
