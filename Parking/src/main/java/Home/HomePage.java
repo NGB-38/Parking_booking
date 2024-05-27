@@ -110,7 +110,7 @@ public class HomePage extends javax.swing.JFrame {
         jButtonPay.setBackground(new java.awt.Color(13, 17, 22));
         jButtonPay.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jButtonPay.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonPay.setText("Payment");
+        jButtonPay.setText("History");
         jButtonPay.setBorderPainted(false);
         jButtonPay.setFocusPainted(false);
         jButtonPay.addActionListener(new java.awt.event.ActionListener() {
