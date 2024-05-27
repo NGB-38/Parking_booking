@@ -62,7 +62,7 @@ public class Booking extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -83,35 +83,71 @@ public class Booking extends javax.swing.JFrame {
 
 //seat là parking_slot (chỉ có date thui) còn reservation nó là parkbook ( có cả date và due_ date)
 
-           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
+//           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//
             java.util.Date fromDate = txtdchooser.getDate();
             java.util.Date dueDate = txtddchooser.getDate();
-            
-            
-//            pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
-//                    + "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
-//                    + "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "
-//                    + "AND NOT EXISTS (SELECT 1 FROM reservation "
-//                    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
-//                    + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+//
+//pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
+//+ "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
+//+ "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "
+//+ "AND NOT EXISTS (SELECT 1 FROM reservation "
+//+ "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
+//+ "AND ? <> ? "
+//+ "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+//
+//
+//
+////ResultSet rs = pst.executeQuery();
+//
+//        pst.setDate(1, new java.sql.Date(fromDate.getTime()));
+//        pst.setDate(2, new java.sql.Date(dueDate.getTime()));
+//        pst.setDate(3, new java.sql.Date(fromDate.getTime()));
+//        pst.setDate(4, new java.sql.Date(dueDate.getTime()));
+//        pst.setDate(5, new java.sql.Date(fromDate.getTime()));
+//        pst.setDate(6, new java.sql.Date(dueDate.getTime()));
+//        pst.setDate(7, new java.sql.Date(fromDate.getTime()));
+//        pst.setDate(8, new java.sql.Date(dueDate.getTime()));
 
-            pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
-        + "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
-        + "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "
-        + "AND NOT EXISTS (SELECT 1 FROM reservation "
-        + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
-        + "AND ? <> ? "
-        + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
 
-        pst.setDate(1, new java.sql.Date(fromDate.getTime()));
-        pst.setDate(2, new java.sql.Date(dueDate.getTime()));
-        pst.setDate(3, new java.sql.Date(fromDate.getTime()));
-        pst.setDate(4, new java.sql.Date(dueDate.getTime()));
-        pst.setDate(5, new java.sql.Date(fromDate.getTime()));
-        pst.setDate(6, new java.sql.Date(dueDate.getTime()));
-        pst.setDate(7, new java.sql.Date(fromDate.getTime()));
-        pst.setDate(8, new java.sql.Date(dueDate.getTime()));
+
+SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+// Convert java.util.Date objects to java.sql.Date
+java.sql.Date fromDateSQL = new java.sql.Date(fromDate.getTime());
+java.sql.Date dueDateSQL = new java.sql.Date(dueDate.getTime());
+
+//pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
+//    + "FROM parking_slot LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
+//    + "WHERE parking_slot.date BETWEEN ? AND ? AND parking_slot.status = 'Available' "
+//    + "AND NOT EXISTS (SELECT 1 FROM reservation "
+//    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date BETWEEN ? AND ?) "
+//    + "AND ? <> ? "
+//    + "group by parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+
+
+pst = con.prepareStatement("SELECT parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price, ? AS date, ? AS due_date "
+    + "FROM parking_slot "
+    + "LEFT JOIN reservation ON parking_slot.slot_id = reservation.slot_id AND parking_slot.date = reservation.date "
+    + "WHERE parking_slot.date >= ? AND parking_slot.date <= ? AND parking_slot.status = 'Available' "
+    + "AND NOT EXISTS (SELECT 1 FROM reservation "
+    + "WHERE reservation.slot_id = parking_slot.slot_id AND reservation.date = parking_slot.date) "
+    + "AND ? <> ? "
+    + "GROUP BY parking_slot.slot_id, parking_slot.lot_id, parking_slot.status, reservation.vehicle_num, reservation.price");
+
+
+
+// Set parameters using set methods
+pst.setDate(1, fromDateSQL);
+pst.setDate(2, dueDateSQL);
+pst.setDate(3, fromDateSQL);
+pst.setDate(4, dueDateSQL);
+pst.setDate(5, fromDateSQL);
+pst.setDate(6, dueDateSQL);
+//pst.setDate(7, fromDateSQL);
+//pst.setDate(8, dueDateSQL);
+//pst.setDate(9, fromDateSQL);
+//pst.setDate(10, dueDateSQL);
 
 
 
@@ -554,7 +590,7 @@ public class Booking extends javax.swing.JFrame {
             if(daysDifference >0){
                 long hours = daysDifference / (60 * 60 * 1000);
                 long days = hours / 24;
-                price = days * 20;
+                price = (days * 20) ;
             }
             }catch(Exception e){
                 e.printStackTrace();
