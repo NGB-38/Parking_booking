@@ -5,6 +5,9 @@
 package Home;
 
 
+import Admin.SlotAdd;
+import Admin.HBForAdmin;
+import Admin.BookingForAdmin;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.UIManager;

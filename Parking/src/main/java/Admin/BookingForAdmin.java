@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Home;
+package Admin;
 
 import Home.BookingForUser;
+import Home.HomePage;
 import Home.HomePage;
 import static java.lang.String.format;
 import java.math.BigDecimal;
