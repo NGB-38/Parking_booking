@@ -13,7 +13,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -82,7 +82,7 @@
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
-                <Property name="text" type="java.lang.String" value="&#x9;                &#xa;- When booking, choose a booking date (From) that is smaller than &#xa;   the return date (To) (for e.g From 10 - To 12)&#xa;- You can only book through the day, do not accept &quot;same-day&quot; bookings&#xa;   (for e.g From 10 but to 10)&#xa;- If you fall into 1 of 2 cases, the system will not  display the available&#xa;   space.&#xa;- When booking, the time is calculated from 12pm on the day of &#xa;   booking to 12pm on the day of departure. &#xa;&#xa;~We do this so that you can have flexibility in arrival/departure times.&#xa;- At STREET A &amp; park 1111, the slot is marked from 1-20&#xa;- At STREET B &amp; park 2222, the slot is marked from 21-40&#xa;- Price will be 20$ for 1 day (for e.gFrom 10 - To 11)"/>
+                <Property name="text" type="java.lang.String" value="&#x9;                &#xa;- When booking, choose a booking date (From) that is smaller than &#xa;   the return date (To) (for e.g From 10 - To 12)&#xa;- You can only book through the day, do not accept &quot;same-day&quot; bookings&#xa;   (for e.g From 10 but to 10)&#xa;- If you fall into 1 of 2 cases, the system will not  display the available&#xa;   space.&#xa;- When booking, the time is calculated from 7AM on the day of &#xa;   booking to 7AM on the day of departure. &#xa;&#xa;~We do this so that you can have flexibility in arrival/departure times.&#xa;- At STREET A &amp; park 1111, the slot is marked from 1-20&#xa;- At STREET B &amp; park 2222, the slot is marked from 21-40&#xa;- Price will be 20$ for 1 day (for e.gFrom 10 - To 11)"/>
               </Properties>
             </Component>
           </SubComponents>

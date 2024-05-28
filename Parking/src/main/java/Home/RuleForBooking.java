@@ -40,7 +40,7 @@ public class RuleForBooking extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("\t                \n- When booking, choose a booking date (From) that is smaller than \n   the return date (To) (for e.g From 10 - To 12)\n- You can only book through the day, do not accept \"same-day\" bookings\n   (for e.g From 10 but to 10)\n- If you fall into 1 of 2 cases, the system will not  display the available\n   space.\n- When booking, the time is calculated from 12pm on the day of \n   booking to 12pm on the day of departure. \n\n~We do this so that you can have flexibility in arrival/departure times.\n- At STREET A & park 1111, the slot is marked from 1-20\n- At STREET B & park 2222, the slot is marked from 21-40\n- Price will be 20$ for 1 day (for e.gFrom 10 - To 11)");
+        jTextArea1.setText("\t                \n- When booking, choose a booking date (From) that is smaller than \n   the return date (To) (for e.g From 10 - To 12)\n- You can only book through the day, do not accept \"same-day\" bookings\n   (for e.g From 10 but to 10)\n- If you fall into 1 of 2 cases, the system will not  display the available\n   space.\n- When booking, the time is calculated from 7AM on the day of \n   booking to 7AM on the day of departure. \n\n~We do this so that you can have flexibility in arrival/departure times.\n- At STREET A & park 1111, the slot is marked from 1-20\n- At STREET B & park 2222, the slot is marked from 21-40\n- Price will be 20$ for 1 day (for e.gFrom 10 - To 11)");
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -106,6 +106,7 @@ public class RuleForBooking extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
