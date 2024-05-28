@@ -5,7 +5,7 @@
 package Home;
 
 import Home.BookingForUser;
-import Home.HomePage;
+import Admin.HomePage;
 import java.util.Random;
 import static java.lang.String.format;
 import java.math.BigDecimal;

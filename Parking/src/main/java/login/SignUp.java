@@ -5,7 +5,7 @@
 package login;
 
 import Home.BookingForUser;
-import Home.HomePage;
+import Admin.HomePage;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.util.logging.Level;
