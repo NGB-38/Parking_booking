@@ -39,7 +39,7 @@ public class SlotAdd extends javax.swing.JFrame {
       
         String url="jdbc:mysql://localhost:3306/parkingbooking2";
         String user="root";
-        String password="12345678";
+        String password="12345";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
@@ -234,7 +234,7 @@ public class SlotAdd extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
      
         
-
+        
             String parkid = txtpark.getSelectedItem().toString();
             String address = txtparkaddress.getSelectedItem().toString();
 
@@ -247,6 +247,8 @@ public class SlotAdd extends javax.swing.JFrame {
                     calendar.set(Calendar.DAY_OF_MONTH, day);
                 java.sql.Date currentDate = new java.sql.Date(calendar.getTimeInMillis());
 
+                
+//                && address.equals("Street A")
             if (parkid.equals("1111") && address.equals("Street A")) {
                 for (int i = 1; i <= 20; i++) {
                     int slot_id = i;
@@ -298,7 +300,7 @@ public class SlotAdd extends javax.swing.JFrame {
                 }
             }
         }
-    } else if (parkid.equals("2222") && address.equals("Street B")) {
+    } else if (parkid.equals("2222")&& address.equals("Street B")) {
         for (int i = 21; i <= 40; i++) {
             int slot_id = i;
 

@@ -97,6 +97,7 @@ while (rs.next()) {
                 v2.add(rs.getString("due_date"));
                 v2.add(rs.getBigDecimal("price"));
                 v2.add(rs.getString("pay_status"));
+//                v2.add(rs.getString("pin"));
                 d.addRow(v2);
 }
         } catch (SQLException ex) {
@@ -418,38 +419,82 @@ while (rs.next()) {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public void filterByUsername(){
+        
         try {
-        String username1 = txtusername.getText(); // Assuming you have a text field for the username
+    String username = txtusername.getText(); // Assuming you have a text field for the username
 
-        pst = con.prepareStatement("SELECT r.vehicle_num, r.slot_id, p.lot_id, r.date, r.due_date, r.price, r.pay_status, r.username, c.mobile "
-                                + "FROM reservation r "
-                                + "JOIN parking_slot p ON r.slot_id = p.slot_id AND r.date = p.date "
-                                + "join customer c on c.USER_NAME = r.username " 
-                                + "WHERE r.username = ?");
+    if (username == null || username.isEmpty()) {
+        // Handle empty username case if necessary
+        return;
+    }
 
+    String query = "SELECT r.vehicle_num, r.slot_id, p.lot_id, r.date, r.due_date, r.price, r.pay_status, r.username, c.mobile " +
+                   "FROM reservation r " +
+                   "JOIN parking_slot p ON r.slot_id = p.slot_id AND r.date = p.date " +
+                   "JOIN customer c ON c.USER_NAME = r.username " +
+                   "WHERE r.username = ?";
+
+    try (PreparedStatement pst = con.prepareStatement(query)) {
         pst.setString(1, username);
 
-        rs = pst.executeQuery();
+        try (ResultSet rs = pst.executeQuery()) {
+            DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
+            d.setRowCount(0);
 
-        DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
-        d.setRowCount(0);
-
-        while (rs.next()) {
-            Vector v2 = new Vector();
-            v2.add(rs.getString("slot_id"));
-            v2.add(rs.getString("lot_id"));
-            v2.add(username1);
-            v2.add(rs.getString("vehicle_num"));
-                        v2.add(rs.getString("mobile"));
-                        v2.add(rs.getString("date"));
-                        v2.add(rs.getString("due_date"));
-                        v2.add(rs.getBigDecimal("price"));
-                        v2.add(rs.getString("pay_status"));
-                        d.addRow(v2);
+            while (rs.next()) {
+                Vector<Object> v2 = new Vector<>();
+                v2.add(rs.getString("slot_id"));
+                v2.add(rs.getString("lot_id"));
+                v2.add(username);
+                v2.add(rs.getString("vehicle_num"));
+                v2.add(rs.getString("mobile"));
+                v2.add(rs.getString("date"));
+                v2.add(rs.getString("due_date"));
+                v2.add(rs.getBigDecimal("price"));
+                v2.add(rs.getString("pay_status"));
+//                v2.add(rs.getString("pin"));
+                d.addRow(v2);
+            }
         }
-                } catch (SQLException ex) {
-                    Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
-                }
+    }
+} catch (SQLException ex) {
+    Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
+}
+
+        
+//        try {
+//        String username2 = txtusername.getText(); // Assuming you have a text field for the username
+//
+//        pst = con.prepareStatement("SELECT r.vehicle_num, r.slot_id, p.lot_id, r.date, r.due_date, r.price, r.pay_status, r.username, c.mobile "
+//                                + "FROM reservation r "
+//                                + "JOIN parking_slot p ON r.slot_id = p.slot_id AND r.date = p.date "
+//                                + "join customer c on c.USER_NAME = r.username " 
+//                                + "WHERE r.username = ?");
+//
+//        pst.setString(1, username);
+//
+//        rs = pst.executeQuery();
+//
+//        DefaultTableModel d = (DefaultTableModel) jTableHis.getModel();
+//        d.setRowCount(0);
+//
+//        while (rs.next()) {
+//            Vector v2 = new Vector();
+//            v2.add(rs.getString("slot_id"));
+//            v2.add(rs.getString("lot_id"));
+//            v2.add(username2);
+//            v2.add(rs.getString("vehicle_num"));
+//                        v2.add(rs.getString("mobile"));
+//                        v2.add(rs.getString("date"));
+//                        v2.add(rs.getString("due_date"));
+//                        v2.add(rs.getBigDecimal("price"));
+//                        v2.add(rs.getString("pay_status"));
+//                        d.addRow(v2);
+//                        
+//        }
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(HBForAdmin.class.getName()).log(Level.SEVERE, null, ex);
+//                }
     }
     private void jTableHisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHisMouseClicked
         // TODO add your handling code here:
